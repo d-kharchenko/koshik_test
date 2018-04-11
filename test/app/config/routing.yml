@@ -1,0 +1,4 @@
+sushi_sushi:
+    resource: "@SushiSushiBundle/Resources/config/routing.yml"
+    prefix:   /
+

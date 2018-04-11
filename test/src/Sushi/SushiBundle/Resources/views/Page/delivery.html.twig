@@ -1,0 +1,136 @@
+{# src/Sushi/SushiBundle/Resources/views/Page/delivery.html.twig #}
+{% extends 'SushiSushiBundle::layout.html.twig' %}
+
+{% block title %} Cуші: замовлення {% endblock %}
+
+{% block stylesheets %}
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet"/>
+		<script src="{{ asset('js/delivery.js') }}"></script><script src='https://www.google.com/recaptcha/api.js'></script>
+		<script src="{{ asset('js/app.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+	<form action="{{ path('sushi_sushi_orderfinish')}}" method="POST">
+
+    <div class="contact-block">
+		<div class="contact-form">
+			<form class="contact-form__input">
+				<h3 class="contact-form__title">Вибір паличок</h3>	
+				<div class="add-sticks-block">
+			
+				<div class="add-usual-sticks">
+					<span class="add-sticks-block__title">Небхідна кількість <br> комплектів паличок:</span>
+					<div class="edit-qlt-sticks">
+						<button class="edit-button minus-button" name="minus-button" style="text-align: center" onclick="changeSticksValue(-1, 'addstick')" type="button">-</button>
+						<!--<form class="stc-form">!-->
+							<input type="number" id = "addstick" maxlength="2" minlength="1" name="_addstick" class="quantity-sticks" value = 0>
+						<!--</form>!-->
+						<button class="edit-button plus-button" id="plus-button" name="plus-button" text-align: center onclick="changeSticksValue(1, 'addstick')" type="button">+</button>
+						<!--<button class="edit-button plus-button" id="plus-button" name="plus-button" type="button">+</button>!-->
+					</div>
+				</div>
+				<div class="add-sticks-for-nubs">
+					<span class="add-sticks-block__title">Небхідна кількість <br> комплектів учбових паличок:</span>
+						<div class="edit-qlt-sticks">
+							<button class="edit-button minus-button" onclick="changeSticksValue(-1, 'addstick_stud')" type="button">-</button>
+							<!--<form class="stc-form">!-->
+								<input type="number" id = 'addstick_stud' maxlength="2" minlength="1" name="_addstick_stud" class="quantity-sticks" value = 0>
+							<!--</form>!-->
+							<button class="edit-button plus-button" onclick="changeSticksValue(1, 'addstick_stud')" type="button">+</button>
+						</div>
+				</div>
+		</div>
+				<div class="contact-form-data">
+					
+					<h3 class="contact-form__title">Контактні дані</h3>
+					<p class="contact-form__tel">
+						<label>Телефон:</label>
+						<input type="tel" name="customer_phone"  class="contact-form__pers-tel" maxlength="10" minlength="10" placeholder="0501234567" required pattern="[0-9]{10}">
+					</p>
+					<p class="contact-form__name">
+						<label>Ім'я:</label>
+						<input type="text" name="customer_name" class="contact-form__pers-name" required minlength="2" maxlength="20">
+					</p>
+				</div>
+				<div class="contact-form-addres">
+					<h3 class="contact-form__title">Адреса доставки</h3>
+					<p class="contact-form-addres__area">
+						<label>Місто:</label>
+							<select class="citylistcaption">
+								<option>Суми</option>
+							</select>
+						<!--<label>Доставка:</label>!-->
+					</p>
+					<p class="contact-form-addres__street">
+						<label class="streetcaption">
+							Вулиця:
+							<!--<select class = "streettypecaption">
+								<option>Вулиця</option>
+								<option>Пров.</option>
+							</select>!-->
+						</label>
+						<!--<select>
+							<option>Лушпи</option>
+							<option>Роменська</option>
+						</select>!-->
+						<input type="text" name="address_street" id="personal-home" required  minlength="3">
+						<!--<label for="personal-home" class="contactcontact-form-addres__personal-home">Приватний будинок</label>!-->
+					</p>
+					<div class="contact-form-addres__exact-addres">
+						<p class="contact-form-addres__short-cell contact-form-addres__left-item">
+							<label>Будинок:</label>
+							<input type="text" name="address_building" class="contact-form-addres__short-input" required maxlength="4">
+						</p>
+						<p class="contact-form-addres__short-cell contact-form-addres__center-item">
+							<label class="contact-form-addres__label ">Під'їзд:</label>
+							<input type="text" name="address_porch" class="contact-form-addres__short-input" maxlength="3">
+						</p>
+						<p class="contact-form-addres__short-cell contact-form-addres__right-item">
+							<label class="contact-form-addres__label flat">Квартира:</label>
+							<input type="text" name="address_apps" class="contact-form-addres__short-input" maxlength="5">
+						</p>
+					</div>
+					
+				</div>
+				<p class="contact-form__time-date">
+					<label>Ви можете вказати дату і час доставки замовлення </label>
+					<img src="img/arrow.png" alt="arrow">
+					<span>
+						<input type="checkbox" name="isInTimeOrder" id="chbox" onchange="showHideDeliveryTime()">
+						<label class="contact-form-some-text" for="chbox">Вказати</label>
+					</span>
+				</p>
+				<div class="contact-form-sel-time" id="contact-form-sel-time" name="_contact-form-sel-time" style="display: hidden">
+					<input type="date" name="address_date" id="date-input">
+					<div class="sel-hours">
+						<button class="edit-button minus-button" name="edit-button minus-button" onclick="changeDateValue(-1, 23, 'sel-hours-input')" type="button">-</button>
+							<input type="number" id = "sel-hours-input" maxlength="2" minlength="1" name="address_hours" class="quantity-sticks contact-form-sel-time--time-input" value = 0>
+						<button class="edit-button plus-button" onclick="changeDateValue(1, 23, 'sel-hours-input')" type="button">+</button>
+					</div>
+					<span class="contact-form-sel-time__separator">:</span>
+					<div class="sel-minuts">
+						<button class="edit-button minus-button" onclick="changeDateValue(-5, 55, 'sel-minutes-input')" type="button">-</button>
+							<input type="number" id = "sel-minutes-input" maxlength="2" minlength="1" name="address_minutes" class="quantity-sticks contact-form-sel-time--time-input" value = 0>
+						<button class="edit-button plus-button" onclick="changeDateValue(5, 55, 'sel-minutes-input')" type="button">+</button>
+					</div>
+				</div>
+				<div class="g-recaptcha" data-sitekey="6Lc8aDIUAAAAAGUVauEu3C2YZLSmnF63_kxkTfUC"></div>
+				<div class="contact-form-buttons">
+					<!--<button class="1button back-button" type="button" onclick = "location.href = {{ path('sushi_sushi_homepage') }};">Повернутися</button>!-->
+					<a href="{{ path('sushi_sushi_homepage')}}"><button class="1button back-button" type="button">Повернутися</button></a>
+					<button class="1button next-button" type="submit">Продовжити</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+    
+    <br><br>
+	</form>
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}

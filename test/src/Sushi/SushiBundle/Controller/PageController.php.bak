@@ -1,0 +1,772 @@
+<?php
+// src/Sushi/SushiBundle/Controller/PageController.php
+
+namespace Sushi\SushiBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+// Import new namespaces
+use Symfony\Component\HttpFoundation\Request;
+use Sushi\SushiBundle\Entity\Products;
+use Sushi\SushiBundle\Form\EnquiryType;
+//
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
+use Sushi\SushiBundle\Entity\Orders;
+use Sushi\SushiBundle\Entity\OrdersProducts;
+use Symfony\Component\Validator\Constraints\DateTime;
+
+class PageController extends Controller
+{
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()
+                   ->getManager()
+                   ->createQueryBuilder();
+
+        $products = $em
+                    ->select('pr')
+                    ->from('SushiSushiBundle:Products',  'pr')
+                    ->where('pr.groupId = :groupId')
+                    ->addOrderBy('pr.orderProduct', 'ASC')
+                    ->getQuery()
+                    ->setParameter('groupId', 1)
+                    ->getResult();
+        /*$it = 0;
+        foreach ($curProduct as $productskey => $value) {
+           $it++;
+           if (it % 3 == 1) {
+
+           }
+        }*/
+        
+        $request = new Request(
+        $_GET,
+        $_POST,
+        array(),
+        $_COOKIE,
+        $_FILES,
+        $_SERVER
+        );
+        
+        //$session = new Session();
+        //$session_id = $session->getId();
+        
+        //$request = new Request();
+        //$request = $this->getRequest();
+
+        $cookies = $request->cookies;
+
+        if ($cookies->has('koshik_sushi_cart'))
+        {
+            $products_array_idqty = unserialize($cookies->get('koshik_sushi_cart'));
+        }
+        else 
+        {
+            $products_array_idqty[0] = 0;//"empy cart";           
+        }
+        
+        $products_ids = array_keys($products_array_idqty);
+        //$products_basket = $cookies['foo'];
+        
+
+        $products_cart_q = $em
+                    ->select('pr_cart')
+                    ->from('SushiSushiBundle:Products',  'pr_cart')
+                    ->where('pr_cart.id IN (:products_ids)')
+                    ->addOrderBy('pr_cart.orderProduct', 'ASC')
+                    ->getQuery()
+                    ->setParameter('products_ids', $products_ids)
+                    ->getResult();
+        
+        //var_dump($products_cart_q);
+        $it = 0;
+        $sumOrderTotal = 0;
+        $itemCountTotal = 0;
+        foreach ($products_cart_q as $curProduct) {
+            $CurQty = $products_array_idqty[$curProduct->getId()];
+            $products_cart[$it] = array("id" => $curProduct->getid(), "name" => $curProduct->getName(), "description" => $curProduct->getdescription(), "price" => $curProduct->getprice(), "qty" => $CurQty, "row_num" => $it+1);
+            $sumOrderTotal = $sumOrderTotal + $products_array_idqty[$curProduct->getId()]*$curProduct->getprice();
+            $itemCountTotal = $itemCountTotal + $CurQty;
+            $it++;
+        }
+        if (count($products_cart_q) === 0)
+        {
+            $products_cart[0] = array("id"=>0, "name" => "Кошик порожній", "description" => "", "price" => "", "qty" => "", "row_num" => "");
+        }
+        
+        //var_dump($products_cart);
+
+        return $this->render('SushiSushiBundle:Page:index.html.twig', array('products' => $products, 'products_cart' => $products_cart, 'sumOrderTotal' => $sumOrderTotal, 'itemCountTotal' => $itemCountTotal, 'isAjax' => true));
+    }
+
+    public function carttableAction()
+    {
+       
+        $request = new Request(
+        $_GET,
+        $_POST,
+        array(),
+        $_COOKIE,
+        $_FILES,
+        $_SERVER
+        );
+        
+        //$session = new Session();
+        //$session_id = $session->getId();
+        
+        //$request = new Request();
+        //$request = $this->getRequest();
+
+        $cookies = $request->cookies;
+
+        if ($cookies->has('koshik_sushi_cart'))
+        {
+            $products_array_idqty = unserialize($cookies->get('koshik_sushi_cart'));
+        }
+        else 
+        {
+            $products_array_idqty[0] = 0;//"empy cart";           
+        }
+        
+        $products_ids = array_keys($products_array_idqty);
+        //$products_basket = $cookies['foo'];
+        
+        $em = $this->getDoctrine()
+                   ->getManager()
+                   ->createQueryBuilder();
+                   
+        $products_cart_q = $em
+                    ->select('pr_cart')
+                    ->from('SushiSushiBundle:Products',  'pr_cart')
+                    ->where('pr_cart.id IN (:products_ids)')
+                    ->addOrderBy('pr_cart.orderProduct', 'ASC')
+                    ->getQuery()
+                    ->setParameter('products_ids', $products_ids)
+                    ->getResult();
+        
+        //var_dump($products_cart_q);
+        $it = 0;
+        $sumOrderTotal = 0;
+        foreach ($products_cart_q as $curProduct) {
+            $products_cart[$it] = array("id" => $curProduct->getid(), "name" => $curProduct->getName(), "description" => $curProduct->getdescription(), "price" => $curProduct->getprice(), "qty" => $products_array_idqty[$curProduct->getId()], "row_num" => $it+1);
+            $sumOrderTotal = $sumOrderTotal + $products_array_idqty[$curProduct->getId()]*$curProduct->getprice();
+            $it++;
+        }
+        if (count($products_cart_q) === 0)
+        {
+            $products_cart[0] = array("id"=>0, "name" => "Кошик порожній", "description" => "", "price" => "", "qty" => "", "row_num" => "");
+        }
+        
+        //var_dump($products_cart);
+
+        return $this->render('SushiSushiBundle:Page:carttable.html.twig', array('products_cart' => $products_cart, 'sumOrderTotal' => $sumOrderTotal, 'isAjax' => true));
+    }
+
+    public function aboutAction()
+    {
+        return $this->render('SushiSushiBundle:Page:about.html.twig');
+    }
+    public function testpageAction(Request $request)
+    {
+        //return $this->render('SushiSushiBundle:Page:testpage.html.twig');
+        
+        $enquiry = new Products();
+
+        $form = $this->createForm(EnquiryType::class, $enquiry);
+        if ($request->isMethod($request::METHOD_POST)) {
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            // Perform some action, such as sending an email
+
+            // Redirect - This is important to prevent users re-posting
+            // the form if they refresh the page
+            return $this->redirect($this->generateUrl('sushi_sushi_testpage'));
+        }
+    }
+
+        return $this->render('SushiSushiBundle:Page:testpage.html.twig', array(
+        'form' => $form->createView()
+        ));
+    }
+
+    public function addtocartAction($product_id)
+    {
+        //return $this->render('SushiSushiBundle:Page:testpage.html.twig');
+         $em = $this->getDoctrine()
+                   ->getManager()
+                   ->createQueryBuilder();
+
+        /*$product_add = $em
+                    ->select('pr')
+                    ->from('SushiSushiBundle:Products',  'pr')
+                    ->where('pr.id = :id')
+                    ->addOrderBy('pr.orderProduct', 'ASC')
+                    ->getQuery()
+                    ->setParameter('id', $product_id)
+                    ->getResult();
+        /*$it = 0;
+        foreach ($curProduct as $productskey => $value) {
+           $it++;
+           if (it % 3 == 1) {
+
+           }
+        }*/
+        $request = new Request(
+        $_GET,
+        $_POST,
+        array(),
+        $_COOKIE,
+        $_FILES,
+        $_SERVER
+        );
+        
+        //$session = new Session();
+        //$session->start();
+        //$session_id = $session->getId();
+        
+        //$request = new Request();
+        //$request = $this->getRequest();
+
+        $cookies = $request->cookies;
+
+        if ($cookies->has('koshik_sushi_cart'))
+        {
+            $products_array_idqty = unserialize($cookies->get('koshik_sushi_cart'));
+            //var_dump($product_id);
+           //var_dump($products_array_idqty);
+            //$curIndex = array_search($product_id, $product_ids);
+            //if  ($curIndex != false)
+            if (array_key_exists($product_id, $products_array_idqty))
+            {
+                //$curcount =  $products_ids[$product_id];
+                $products_array_idqty[$product_id] = $products_array_idqty[$product_id] + 1;
+            }
+            else
+            {
+                $products_array_idqty[$product_id] = 1;
+            }
+            //$products_ids[count($products_ids)] = array($product_id => 1);
+            /*$products_ids[0] = $product_id;*/
+        }
+        else 
+        {
+           $products_array_idqty[$product_id] = 1;
+        }
+        //$products_ids[$product_id] = 1;       
+        //$products_array_idqty = Null;
+        //$products_array_idqty[$product_id] = 1;
+        //var_dump($products_array_idqty);
+
+        $response = new Response();
+        $response->headers->setCookie(new Cookie('koshik_sushi_cart', serialize($products_array_idqty), time() + (3600 * 48)));
+        $response->send();
+
+        return $this->redirectToRoute('sushi_sushi_homepage');
+        //$result = Add2CartAjaxAction();
+
+        //return $this->render('SushiSushiBundle:Page:index.html.twig', $result);
+
+
+        /*$em = $this->getDoctrine()
+                   ->getManager()
+                   ->createQueryBuilder();
+        $products = $em
+                    ->select('pr')
+                    ->from('SushiSushiBundle:Products',  'pr')
+                    ->where('pr.groupId = :groupId')
+                    ->addOrderBy('pr.orderProduct', 'ASC')
+                    ->getQuery()
+                    ->setParameter('groupId', 1)
+                    ->getResult();
+        $products_cart = $em
+                    ->select('pr_cart')
+                    ->from('SushiSushiBundle:Products',  'pr_cart')
+                    ->where('pr_cart.id IN (:products_ids)')
+                    ->addOrderBy('pr_cart.orderProduct', 'ASC')
+                    ->getQuery()
+                    ->setParameter('products_ids', $products_ids)
+                    ->getResult();
+        return $this->render('SushiSushiBundle:Page:testpage.html.twig', array('products_cart' => $products_cart, 'products' => $products));
+
+        //return $this->render('SushiSushiBundle:Page:testpage.html.twig'), array(
+        //'form' => $form->createView()
+        //));*/
+    }
+
+    public function AddtoCartAjaxAction($product_id) {
+
+        $request = new Request(
+        $_GET,
+        $_POST,
+        array(),
+        $_COOKIE,
+        $_FILES,
+        $_SERVER
+        );
+        
+        $cookies = $request->cookies;
+        
+        $cookies_cart_name = 'koshik_sushi_cart_full';
+
+        if ($cookies->has($cookies_cart_name))
+        {
+            $products_array_idqty = unserialize($cookies->get($cookies_cart_name));
+            
+            if (array_key_exists($product_id, $products_array_idqty))
+            {
+                $products_array_idqty[$product_id] = $products_array_idqty[$product_id] + 1;
+            }
+            else
+            {
+                $products_array_idqty[$product_id] = 1;
+            }
+        }
+        else 
+        {
+           $products_array_idqty[$product_id] = 1;
+        }
+        $response = new Response();
+        $response->headers->setCookie(new Cookie($cookies_cart_name, serialize($products_array_idqty), time() + (3600 * 48)));
+        $response->send();
+        //////////////////////////////////////////////////////////////////
+        
+        
+        $em = $this->getDoctrine()
+                   ->getManager()
+                   ->createQueryBuilder();
+
+        /*$cookies = $request->cookies;
+
+        if ($cookies->has('koshik_sushi_cart'))
+        {
+            $products_array_idqty = unserialize($cookies->get('koshik_sushi_cart'));
+        }
+        else 
+        {
+            $products_array_idqty[0] = 0;//"empy cart";           
+        }*/
+        
+        $products_ids = array_keys($products_array_idqty);
+
+        $products_cart_q = $em
+                    ->select('pr_cart')
+                    ->from('SushiSushiBundle:Products',  'pr_cart')
+                    ->where('pr_cart.id IN (:products_ids)')
+                    ->addOrderBy('pr_cart.orderProduct', 'ASC')
+                    ->getQuery()
+                    ->setParameter('products_ids', $products_ids)
+                    ->getResult();
+        
+        $it = 0;
+        $sumOrderTotal = 0;
+        $itemCountTotal = 0;
+        foreach ($products_cart_q as $curProduct) {
+            $CurQty = $products_array_idqty[$curProduct->getId()];
+            $products_cart[$it] = array("id" => $curProduct->getid(), "name" => $curProduct->getName(), "description" => $curProduct->getdescription(), "price" => $curProduct->getprice(), "qty" => $CurQty, "row_num" => $it+1);
+            $sumOrderTotal = $sumOrderTotal + $products_array_idqty[$curProduct->getId()]*$curProduct->getprice();
+            $itemCountTotal = $itemCountTotal + $CurQty;
+            $it++;
+        }
+        if (count($products_cart_q) === 0)
+        {
+            $products_cart[0] = array("id"=>0, "name" => "Кошик порожній", "description" => "", "price" => "", "qty" => "", "row_num" => "");
+        }
+            $sortedCart = $this->SortArrayByCookie($products_array_idqty, $products_cart);
+            $response_json = $this->json(array('products_cart' => $sortedCart, 'sumOrderTotal' => $sumOrderTotal,'itemCountTotal' => $itemCountTotal, 'isAjax' => true));
+        return $response_json;
+                
+    }
+
+    public function SortArrayByCookie($products_array_idqty, $products_cart)
+    {
+        $it = 0;
+        foreach ($products_array_idqty as $curId=>$curQty) {
+            $key = array_search($curId, array_column($products_cart, 'id'));
+            $sortedCart[$it] = $products_cart[$key];
+            $it++;
+        }
+        return $sortedCart;
+    }
+
+    public function delfromcartAction($product_id)
+    {
+        $em = $this->getDoctrine()
+                   ->getManager()
+                   ->createQueryBuilder();
+
+        /*$product_add = $em
+                    ->select('pr')
+                    ->from('SushiSushiBundle:Products',  'pr')
+                    ->where('pr.id = :id')
+                    ->addOrderBy('pr.orderProduct', 'ASC')
+                    ->getQuery()
+                    ->setParameter('id', $product_id)
+                    ->getResult();
+        /*$it = 0;
+        foreach ($curProduct as $productskey => $value) {
+           $it++;
+           if (it % 3 == 1) {
+
+           }
+        }*/
+        $request = new Request(
+        $_GET,
+        $_POST,
+        array(),
+        $_COOKIE,
+        $_FILES,
+        $_SERVER
+        );
+        
+        //$session = new Session();
+        //$session->start();
+        //$session_id = $session->getId();
+        
+        //$request = new Request();
+        //$request = $this->getRequest();
+
+        $cookies = $request->cookies;
+
+        if ($cookies->has('koshik_sushi_cart'))
+        {
+            $products_array_idqty = unserialize($cookies->get('koshik_sushi_cart'));
+            //var_dump($product_id);
+            //var_dump($products_array_idqty);
+            //$curIndex = array_search($product_id, $product_ids);
+            //if  ($curIndex != false)
+            if (array_key_exists($product_id, $products_array_idqty))
+            {
+                //$curcount =  $products_ids[$product_id];
+                //$products_array_idqty[$product_id] = $products_array_idqty[$product_id] - 1;
+                $products_array_idqty[$product_id] = $products_array_idqty[$product_id] - 1;
+            }
+            else
+            {
+                $products_array_idqty[$product_id] = 0;
+            }
+            //$products_ids[count($products_ids)] = array($product_id => 1);
+            /*$products_ids[0] = $product_id;*/
+        }
+        else 
+        {
+           $products_array_idqty[$product_id] = 0;
+        }
+        if ($products_array_idqty[$product_id] === 0)
+        {
+            unset($products_array_idqty[$product_id]);
+        }
+
+        $response = new Response();
+        $response->headers->setCookie(new Cookie('koshik_sushi_cart', serialize($products_array_idqty), time() + (3600 * 48)));
+        $response->send();
+
+        return $this->redirectToRoute('sushi_sushi_homepage');
+        
+    }
+    public function orderAction()
+    {
+        $request = new Request(
+        $_GET,
+        $_POST,
+        array(),
+        $_COOKIE,
+        $_FILES,
+        $_SERVER
+        );
+
+        $cookies = $request->cookies;
+        if ($cookies->has('koshik_sushi_cart'))
+        {
+            $products_array_idqty = unserialize($cookies->get('koshik_sushi_cart'));
+        }
+        else 
+        {
+            return $this->redirectToRoute('sushi_sushi_homepage');   
+        }
+        
+        if (count($products_array_idqty) === 0) {
+            return $this->redirectToRoute('sushi_sushi_homepage');
+        } else {
+
+        }
+        $products_ids = array_keys($products_array_idqty);
+        if ((count($products_ids) === 1) & ($products_ids[0] === 0)) 
+        {
+            return $this->redirectToRoute('sushi_sushi_homepage');
+        } else {
+
+        }
+       return $this->render('SushiSushiBundle:Page:delivery.html.twig');
+       //return $this->render('SushiSushiBundle:Page:chopsticks.html.twig');
+    }
+
+    public function delFromCartAjaxAction($product_id)
+    {
+        /*$em = $this->getDoctrine()
+                   ->getManager()
+                   ->createQueryBuilder();*/
+
+        /*$product_add = $em
+                    ->select('pr')
+                    ->from('SushiSushiBundle:Products',  'pr')
+                    ->where('pr.id = :id')
+                    ->addOrderBy('pr.orderProduct', 'ASC')
+                    ->getQuery()
+                    ->setParameter('id', $product_id)
+                    ->getResult();
+        /*$it = 0;
+        foreach ($curProduct as $productskey => $value) {
+           $it++;
+           if (it % 3 == 1) {
+
+           }
+        }*/
+        $request = new Request(
+        $_GET,
+        $_POST,
+        array(),
+        $_COOKIE,
+        $_FILES,
+        $_SERVER
+        );
+        
+        //$session = new Session();
+        //$session->start();
+        //$session_id = $session->getId();
+        
+        //$request = new Request();
+        //$request = $this->getRequest();
+
+        $cookies = $request->cookies;
+
+        if ($cookies->has('koshik_sushi_cart'))
+        {
+            $products_array_idqty = unserialize($cookies->get('koshik_sushi_cart'));
+            //var_dump($product_id);
+            //var_dump($products_array_idqty);
+            //$curIndex = array_search($product_id, $product_ids);
+            //if  ($curIndex != false)
+            if (array_key_exists($product_id, $products_array_idqty))
+            {
+                //$curcount =  $products_ids[$product_id];
+                //$products_array_idqty[$product_id] = $products_array_idqty[$product_id] - 1;
+                $products_array_idqty[$product_id] = $products_array_idqty[$product_id] - 1;
+            }
+            else
+            {
+                $products_array_idqty[$product_id] = 0;
+            }
+            //$products_ids[count($products_ids)] = array($product_id => 1);
+            /*$products_ids[0] = $product_id;*/
+        }
+        else 
+        {
+           $products_array_idqty[$product_id] = 0;
+        }
+        if ($products_array_idqty[$product_id] === 0)
+        {
+            unset($products_array_idqty[$product_id]);
+        }
+
+        $response = new Response();
+        $response->headers->setCookie(new Cookie('koshik_sushi_cart', serialize($products_array_idqty), time() + (3600 * 48)));
+        $response->send();
+
+        //return $this->redirectToRoute('sushi_sushi_homepage');
+        $em = $this->getDoctrine()
+        ->getManager()
+        ->createQueryBuilder();
+
+        $cookies = $request->cookies;
+
+        if ($cookies->has('koshik_sushi_cart'))
+        {
+            $products_array_idqty = unserialize($cookies->get('koshik_sushi_cart'));
+        }
+        else 
+        {
+            $products_array_idqty[0] = 0;//"empy cart";           
+        }
+
+        $products_ids = array_keys($products_array_idqty);
+
+        $products_cart_q = $em
+         ->select('pr_cart')
+         ->from('SushiSushiBundle:Products',  'pr_cart')
+         ->where('pr_cart.id IN (:products_ids)')
+         ->addOrderBy('pr_cart.orderProduct', 'ASC')
+         ->getQuery()
+         ->setParameter('products_ids', $products_ids)
+         ->getResult();
+
+        $it = 0;
+        $sumOrderTotal = 0;
+        $itemCountTotal = 0;
+        foreach ($products_cart_q as $curProduct) {
+            $CurQty = $products_array_idqty[$curProduct->getId()];
+            $products_cart[$it] = array("id" => $curProduct->getid(), "name" => $curProduct->getName(), "description" => $curProduct->getdescription(), "price" => $curProduct->getprice(), "qty" => $CurQty, "row_num" => $it+1);
+            $sumOrderTotal = $sumOrderTotal + $products_array_idqty[$curProduct->getId()]*$curProduct->getprice();
+            $itemCountTotal = $itemCountTotal + $CurQty;
+            $it++;
+        }
+        if (count($products_cart_q) === 0)
+        {
+            $products_cart[0] = array("id"=>0, "name" => "Кошик порожній", "description" => "", "price" => "", "qty" => "", "row_num" => "");
+        }
+
+        /*$response = new Response($this->json(array('products_cart' => $products_cart, 'sumOrderTotal' => $sumOrderTotal,'itemCountTotal' => $itemCountTotal, 'isAjax' => true)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;*/
+        $responseJson = $this->json(array('products_cart' => $products_cart, 'sumOrderTotal' => $sumOrderTotal,'itemCountTotal' => $itemCountTotal, 'isAjax' => true));
+        return $responseJson;
+    }
+
+    public function deliveryAction()
+    {
+       //return $this->redirectToRoute('sushi_sushi_homepage');
+       return $this->render('SushiSushiBundle:Page:delivery.html.twig');
+    }
+    
+    public function orderfinishAction(Request $request)
+    {
+       /*$request = new Request(
+        $_GET,
+        $_POST,
+        array(),
+        $_COOKIE,
+        $_FILES,
+        $_SERVER
+        );*/
+        
+        $cookies = $request->cookies;
+
+        if ($cookies->has('koshik_sushi_cart'))
+        {
+            $products_array_idqty = unserialize($cookies->get('koshik_sushi_cart'));
+        }
+        else 
+        {
+            return $this->redirectToRoute('sushi_sushi_homepage');
+            $products_array_idqty[0] = 0;//"empy cart";           
+        }
+        
+        $products_ids = array_keys($products_array_idqty);
+
+        $products_ids = array_keys($products_array_idqty);
+        
+        if ((count($products_ids) === 1) & ($products_ids[0] === 0)) {
+            return $this->redirectToRoute('sushi_sushi_homepage');
+        }        
+        
+        $em = $this->getDoctrine()
+                   ->getManager();
+        $em_qb = $em->createQueryBuilder();
+        
+
+        $products_cart_q = $em_qb
+                    ->select('pr_cart')
+                    ->from('SushiSushiBundle:Products',  'pr_cart')
+                    ->where('pr_cart.id IN (:products_ids)')
+                    ->addOrderBy('pr_cart.orderProduct', 'ASC')
+                    ->getQuery()
+                    ->setParameter('products_ids', $products_ids)
+                    ->getResult();
+        
+        
+        $sumOrderTotal = 0;
+        foreach ($products_cart_q as $curProduct) {
+            $sumOrderTotal = $sumOrderTotal + $products_array_idqty[$curProduct->getId()]*$curProduct->getprice();
+        }
+        $currDate = new \DateTime();
+        $newOrder = new Orders();
+        $newOrder->setDate($currDate);
+        $newOrder->setCustomerId(0);
+        $newOrder->setCustomerName($request->request->get('customer_name'));
+        $newOrder->setCustomerPhone($request->request->get('customer_phone'));
+        $newOrder->setSticksQty($request->request->get('_addstick'));
+        $newOrder->setStickStudQty($request->request->get('_addstick_stud'));
+        $newOrder->setDelZoneId(0);
+        $newOrder->setDelPrice(0);
+        $newOrder->setStreetId(0);
+        $newOrder->setStreetName($request->request->get('address_street'));
+        $newOrder->setBuilding($request->request->get('address_building'));
+        $newOrder->setPorch($request->request->get('address_porch'));
+        $newOrder->setApp($request->request->get('address_apps'));
+        $newOrder->setSum($sumOrderTotal);
+        //
+        $isInTimeOrder = $request->request->get('isInTimeOrder');
+        if ($isInTimeOrder == 'on') {
+            $isInTimeOrder = true;
+        } else {
+            $isInTimeOrder = false;
+        }
+        $deliveryDate = $request->request->get('address_date');
+        $deliveryDateHours = $request->request->get('address_hours');
+        $deliveryDateMinutes = $request->request->get('address_minutes');
+        /*try {
+            $deliveryDateTime = \DateTime::createFromFormat('Y-m-d', $deliveryDate);
+            $deliveryDateTime->setTime($deliveryDateHours, $deliveryDateMinutes, 0);
+            }
+        catch(Exception $e) {
+            $deliveryDateTime = new \DateTime();
+        }*/
+        $newOrder->setDelInTime($isInTimeOrder);
+        $newOrder->setDelTime($deliveryDateTime);
+        //
+        $em->persist($newOrder);
+        $em->flush();
+        $newOrderId = $newOrder->getId();
+        $it = 0;
+        foreach ($products_cart_q as $curProduct) {
+            $products_cart[$it] = array("id" => $curProduct->getid(), "name" => $curProduct->getName(), "description" => $curProduct->getdescription(), "price" => $curProduct->getprice(), "qty" => $products_array_idqty[$curProduct->getId()]);
+            $newOrderProducts = new OrdersProducts();
+            $newOrderProducts->setOrderId($newOrderId);
+            $newOrderProducts->setRowId($curProduct->getid());//$it);
+            $newOrderProducts->setProductId($curProduct->getid());
+            $newOrderProducts->setQty($products_array_idqty[$curProduct->getId()]);
+            $newOrderProducts->setPrice($curProduct->getprice());
+            $newOrderProducts->setSum($products_array_idqty[$curProduct->getId()]*$curProduct->getprice());
+            $em->persist($newOrderProducts);
+            $em->flush();
+            $it++;
+        }
+
+        unset($products_array_idqty);
+       
+        $response = new Response();
+        $products_array_idqty[0] = 0;
+        $response->headers->setCookie(new Cookie('koshik_sushi_cart', serialize($products_array_idqty), time() + (3600 * 48)));
+        $response->send();
+        //$fieldvalue = $request->request->get('_addstick');
+        //$fieldvalue = $request->query->get('_addstick');
+        
+        //$newOrderId = new DateTime( $deliveryDate . ' '. $deliveryDateHours . ':' . $deliveryDateMinutes);
+        //$newOrderId = new DateTime( $deliveryDate . ' 00:00');
+        
+        //$newOrderId =  $deliveryDate . ' '. $deliveryDateHours . ':' . $deliveryDateMinutes;
+        return $this->render('SushiSushiBundle:Page:orderfinish.html.twig', array('order_id' => $newOrderId));
+        //return $this->render('SushiSushiBundle:Page:orderfinish.html.twig', array('order_id' => $fieldvalue));
+    }
+
+    public function ajaxAction()
+    {
+        $template = $this->forward('SushiSushiBundle:Page:index.html.twig')->getContent();
+
+        $json = json_encode($template);
+        $response = new Response($json, 200);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+        
+    
+    }
+}

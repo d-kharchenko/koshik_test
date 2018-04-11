@@ -1,0 +1,72 @@
+{# src/Sushi/SushiBundle/Resources/views/Page/index.html.twig #}
+{% extends 'SushiSushiBundle::layout.html.twig' %}
+
+{% block body %}
+    
+	
+    <div class="wrap">
+		<div class="order-menu">
+			<div class="sushi-menu">
+                {% for product in products %}
+                    <div class="menu-item">
+					    <span class="menu-item__weight"></span>
+					    <img src={{ asset('img/products/' ~ product.image) }} class="menu-item__img">
+					    <a href="#" class="menu-item__name">{{ product.name }}</a>
+					    <div class="price-block">
+  						    <h4>Ціна: <span class="price-block__cost">{{ product.price }}</span> грн.</h4>
+					    </div>
+					    <div class="addbutton-block">
+                            <a href="{{ path('sushi_sushi_addtocart', {'product_id': product.id}) }}"><button class="next-button">Замовити</button></a>
+                        </div>
+				    </div>
+                {% else %}
+                    <p>There are no products in database</p>
+                {% endfor %}
+            </div>
+            <div class="hide-menu">
+				<p class="hide-menu__text">Кошик </p>
+				<img src="img/arrow-hide-menu.png" alt="arrow" class="hide-menu__item">
+				<div class="order-hide-block"></div>
+			</div>
+			<div class="order-list">
+				<div class="order-block">
+					<table>
+						<tr class="order-block__title">
+							<th class="order-block__number">№</th>
+							<th class="order-block__product">Товар</th>
+							<th class="order-block__price">Кількість</th>
+                        	<th class="order-block__price">Ціна</th>
+							<th class="order-block__delete">Видалити</th>
+						</tr>
+						{% for product in products_cart %}
+                        	<tr class="order-block__to-order">
+						    	<td>{{ product.row_num }}</td>
+						    	<td>{{ product.name }}</td>
+						   		<td>{{ product.qty }}</td>
+                            	<td>{{ product.price }}</td>
+						    	<td><a href="{{ path('sushi_sushi_delfromcart', {'product_id': product.id}) }}"><img class = "order-block_image_delete" src={{ asset('img/delete-button.png') }}></a></td>
+					    	</tr>
+                    	{% endfor %}
+					</table>
+				</div>
+            	<div class="total-sum">
+					<div class="cost-block">
+						<h4 class="cost-block__title">Сума, грн.: </h4>
+						<span class="cost-block__cost-order">{{ sumOrderTotal }}</span>
+					</div>
+					<a href="{{ path('sushi_sushi_order')}}"><button class="total-sum__button">Оформити замовлення</button></a>
+				</div>
+				<!--{{ render(controller('SushiSushiBundle:Page:delivery')) }}!-->
+			</div>
+        </div>
+    </div>
+	<script src="https://code.jquery.com/jquery-1.9.1.min.js">
+	$( document ).ready(function() {
+		console.log( "document loaded" );
+    });
+ 
+    $( window ).on( "load", function() {
+        console.log( "window loaded" );
+    });
+	</script>
+{% endblock %}

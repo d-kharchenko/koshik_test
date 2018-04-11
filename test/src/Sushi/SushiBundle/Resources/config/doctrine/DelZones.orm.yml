@@ -1,0 +1,24 @@
+Sushi\SushiBundle\Entity\DelZones:
+    type: entity
+    table: del_zones
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+        price:
+            type: decimal
+            nullable: false
+            precision: 15
+            scale: 2
+    lifecycleCallbacks: {  }

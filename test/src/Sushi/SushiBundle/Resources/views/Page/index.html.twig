@@ -1,0 +1,180 @@
+{# src/Sushi/SushiBundle/Resources/views/Page/chopsticks.html.twig #}
+{% extends 'SushiSushiBundle::layout.html.twig' %}
+
+{% block title %} Кошик Cуші: замовлення {% endblock %}
+
+{% block stylesheets %}
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVzxO4egkWZ7E0BKSLaGgOBahDklBT4pU&callback=initMap"></script>
+        <link href="{{ asset('css/animate.css') }}" type="text/css" rel="stylesheet"/>
+        <link href="{{ asset('css/style-new.css') }}" type="text/css" rel="stylesheet"/>
+        <link href="{{ asset('css/reset.css') }}" type="text/css" rel="stylesheet"/>
+		{#<script src="{{ asset('js/delivery.js') }}"></script>#}
+		<script src="{{ asset('js/app.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+ <div class="wrapper">
+		<div class="top-block">
+			<div class="header-block__mb-menu">
+				<img src="img/menu.png" class="header-block__menu-icon" alt="menu-icon">
+				<a href="#" class="header-block__logo"><img src="img/logo.png" class="header-logo" alt="logo"></a>
+				
+			</div>
+			<header class="header-block header-block--mb">
+				
+				 
+				<nav class="header-nav">
+					<ul class="header-nav__list">
+						<li class="header-nav__item"><a href="#" class="header-block__md-logo"><img src="img/logo.png" class="header-logo" alt="logo"></a></li>
+						<li class="header-nav__item"><a href="#" class="header-nav__link" >Головна</a></li>
+						<li class="header-nav__item"><a href="{{ path('sushi_sushi_homepage')}}" class="header-nav__link">Замовити</a></li>
+						<li class="header-nav__item"><a href="#for-delivery" class="header-nav__link">Доставка</a></li>
+						<li class="header-nav__item"><a href="#for-contacts" class="header-nav__link">Контакти</a></li>
+					</ul>
+				</nav>
+				{# <div class="social">
+					<ul class="social-list">
+						<li class="social-item"><a href="#"><img src="img/facebook.png"></a></li>
+						<li class="social-item"><a href="#"><img src="img/telegram.png"></a></li>
+						<li class="social-item"><a href="#"><img src="img/skype.png"></a></li>
+					</ul>
+				</div> #}
+			</header>
+			<div class="conteiner">
+				<div class="order-btn animated flipInX">
+					<p><a class="order-btn__link" href="{{ path('sushi_sushi_homepage')}}">Зробити замовлення</a></p>
+				</div>
+			</div>
+		</div>
+		<div class="main">
+				<div class="products">
+					<section class="left-item align-item">
+						<div class="animated mov">
+							<h2 class="product-title ">Суші</h2>
+							<p class="product-text ">ПрогитовлеВеликий вибір суші та Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua.</p>
+							<a href="{{ path('sushi_sushi_homepage')}}" class="product-link">Замовити</a>
+						</div>
+					</section>
+					<section class="right-item align-item img-item " style="background-image: url(img/1.jpg);">
+					</section>
+				</div>
+				<div class="products">
+					<section class="right-item align-item img-item " style="background-image: url(img/1.jpg);">
+					</section>
+					<section class="left-item align-item">
+						<div class="animated mov-right">
+							<h2 class="product-title">Соуси</h2>
+							<p class="product-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+							<a href="#" class="product-link">Детальніше</a>
+						</div>
+					</section>
+					
+				</div>
+				<div class="about-us-wrap ">
+					<div class="conteiner">
+						<div class="about-us animated">
+							<h2 class="about-us__title">Кошик Суші</h2>
+								<p class="about-us__text">Наші сушисти приготують для Вас найсмачніші сіші в місті Суми.</p>
+							</div>
+						</div>
+						<div id="for-delivery"></div>
+				</div>
+		</div>
+		<div id="delivery" class="delivery-block">
+			<div class="conteiner">
+				<div  class="animated mov-right">
+					<h3 class="delivery__title">Доставка</h3>
+					<p class="delivery__text">Виберіть для себе кращий спосіб замовлення і наші курьєри  доставлять ваше замовлення на прозязі 30 хв. Також є можливість доставити замовлення  на вказаний час та дату. </p>
+				</div>
+			</div>
+			<div id="for-contacts"></div>
+		</div>
+		<footer class="footer">
+		<div class="animated mov">
+			<h3 class="footer-contacts__title">Контакти</h3>
+			<div class="conteiner footer__conteiner">
+				<div class="footer-contacts" id="contacts">
+					<div class="footer-work-time">
+						<h4 class="footer-sec-title">Ми працюємо:</h4>
+						<p>Без перерв та вихідних</p>
+						<p>з 8-00 до 21-45</p>
+					</div>
+					<ul class="footer-contacts__list">
+						<li class="footer-contacts__item">+38 (099) 333-33-33</li>
+						<li class="footer-contacts__item">+38 (099) 333-33-33</li>
+						<li class="footer-contacts__item">+38 (099) 333-33-33</li>
+						<li class="footer-contacts__item">+38 (099) 333-33-33</li>
+					</ul>
+					<ul class="social-list">
+						<li class="social-item"><a href="https://www.facebook.com/"><img src="img/facebook.png" alt="facebook"></a></li>
+						<li class="social-item"><a href="https://telegram.org/"><img src="img/telegram.png" alt="telegram"></a></li>
+						<li class="social-item"><a href="https://www.skype.com/ru/"><img src="img/skype.png" alt="skype"></a></li>
+						<li class="social-item"><a href="https://www.viber.com/ru/"><img src="img/viber.png" alt="viber"></a></li>
+					</ul>
+				</div>
+				<div class="footer-adrres">
+					<h4 class="footer-sec-title">Адреса:</h4>
+					<p>м.Суми, вул. Прокофьєва, 20</p>
+					<p>м.Суми, вул. Прокофьєва, 20</p>
+					<div id="map"></div>
+					<!-- <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1885.291815724098!2d34.80593882574285!3d50.89480375921715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sru!2sua!4v1506525464240" width="100%" height="300" frameborder="0" style="border:0" allowfullscreen></iframe> -->
+				</div>
+				
+			</div>
+			
+			</div>	
+		</footer>
+	</div>
+	<script type="text/javascript">
+		
+			$(window).scroll(function() {
+			
+		    $('.mov').each(function(){
+		      var pos = $(this).offset().top;
+		      var topOfWindow = $(window).scrollTop();
+		      if (pos < topOfWindow+700) {
+		        $(this).addClass('fadeInLeft');
+		      }
+		    });
+		    $('.mov-right').each(function(){
+		      var pos = $(this).offset().top;
+		      var topOfWindow = $(window).scrollTop();
+		      if (pos < topOfWindow+700) {
+
+		        $(this).addClass('fadeInRight');
+		      }
+		    });
+		    $('.about-us').each(function(){
+		      var pos = $(this).offset().top;
+		      var topOfWindow = $(window).scrollTop();
+		      if (pos < topOfWindow+700) {
+		        $(this).addClass('fadeInLeft');
+		      }
+		    });
+		     $('.header-block').each(function(){
+		      var pos = 100;
+		      var topOfWindow = $(window).scrollTop();
+		      if (pos < topOfWindow + 100) {
+
+		        $(this).css({'background-color': 'rgba(252,95,7,0.92)', 'transform': 'scale(1.15, 1.15)'});
+		      } else if(pos > topOfWindow + 50 ){
+		      	 $(this).css({'background-color': 'unset',  'transform': 'scale(1, 1)'});
+
+		      }
+		    });
+  		});
+	</script>
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}

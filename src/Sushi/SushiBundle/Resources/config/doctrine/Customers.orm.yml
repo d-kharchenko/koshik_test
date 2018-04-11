@@ -1,0 +1,56 @@
+Sushi\SushiBundle\Entity\Customers:
+    type: entity
+    table: customers
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            options:
+                fixed: false
+        delZoneId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: del_zone_id
+        phone:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+        streetId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: street_id
+        building:
+            type: string
+            nullable: false
+            length: 8
+            options:
+                fixed: false
+        porch:
+            type: string
+            nullable: true
+            length: 8
+            options:
+                fixed: false
+        app:
+            type: string
+            nullable: true
+            length: 8
+            options:
+                fixed: false
+    lifecycleCallbacks: {  }

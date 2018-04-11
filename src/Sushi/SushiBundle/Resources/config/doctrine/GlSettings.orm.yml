@@ -1,0 +1,23 @@
+Sushi\SushiBundle\Entity\GlSettings:
+    type: entity
+    table: gl_settings
+    id:
+        paramName:
+            type: string
+            nullable: false
+            length: 120
+            options:
+                fixed: false
+            id: true
+            generator:
+                strategy: IDENTITY
+            column: param_name
+    fields:
+        paramValue:
+            type: string
+            nullable: false
+            length: 120
+            options:
+                fixed: false
+            column: param_value
+    lifecycleCallbacks: {  }

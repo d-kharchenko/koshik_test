@@ -1,0 +1,31 @@
+Sushi\SushiBundle\Entity\Warehouses:
+    type: entity
+    table: warehouses
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            options:
+                fixed: false
+        status:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+        sortOrder:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: sort_order
+    lifecycleCallbacks: {  }

@@ -1,0 +1,60 @@
+sushi_sushi_startpage:
+    path:   /
+    defaults: { _controller: "SushiSushiBundle:Page:index" }
+    requirements:
+    methods:  GET
+sushi_sushi_homepage:
+    path:   /catalog
+    defaults: { _controller: "SushiSushiBundle:Page:catalog" }
+    requirements:
+    methods:  GET
+sushi_sushi_carttable:
+    path:   /carttable
+    defaults: { _controller: "SushiSushiBundle:Page:carttable" }
+    requirements:
+    methods:  GET
+sushi_sushi_about:
+    path: /about
+    defaults: { _controller: "SushiSushiBundle:Page:about" }
+    requirements:
+    methods: GET
+sushi_sushi_testpage:
+    path: /testpage
+    defaults: { _controller: "SushiSushiBundle:Page:testpage" }
+    requirements:
+    methods: GET|POST
+sushi_sushi_addtocartajax:
+    path: /addtocartajax/{product_id}
+    defaults: { _controller: "SushiSushiBundle:Page:addtocartajax" }
+    requirements:
+    methods: GET|POST
+sushi_sushi_delfromcartajax:
+    path: /delfromcartajax/{product_id}
+    defaults: { _controller: "SushiSushiBundle:Page:delfromcartajax" }
+    requirements:
+    methods: GET|POST
+sushi_sushi_setcartitemcountajax:
+    path: /setcartitemcountajax/{product_id}/{qty}/{isSet}
+    defaults: { _controller: "SushiSushiBundle:Page:setcartitemcountajax" }
+    requirements:
+    methods: GET|POST
+sushi_sushi_checkcartajax:
+    path: /checkcartajax
+    defaults: { _controller: "SushiSushiBundle:Page:checkcartajax" }
+    requirements:
+    methods: GET|POST
+sushi_sushi_order:
+    path: /order
+    defaults: { _controller: "SushiSushiBundle:Page:order" }
+    requirements:
+    methods: GET|POST
+sushi_sushi_delivery:
+    path: /delivery
+    defaults: { _controller: "SushiSushiBundle:Page:delivery" }
+    requirements:
+    methods: GET|POST
+sushi_sushi_orderfinish:
+    path: /orderfinish
+    defaults: { _controller: "SushiSushiBundle:Page:orderfinish" }
+    requirements:
+    methods: GET|POST

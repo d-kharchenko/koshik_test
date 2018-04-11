@@ -1,0 +1,169 @@
+{# src/Sushi/SushiBundle/Resources/views/Page/chopsticks.html.twig #}
+{% extends 'SushiSushiBundle::layout.html.twig' %}
+
+{% block title %} Кошик Суші - замовити суші в Сумах {% endblock %}
+
+{% block stylesheets %}
+		<!-- <script type="application/ld+json">
+		{
+		  "@context": "http://schema.org",
+		  "@type": "Organization",
+		  "name": "Кошик суши",
+		  "url": "https://sushi.koshik.sumy.ua",
+		  "sameAs": [
+		    "https://www.facebook.com/koshikSumy/",
+		    "https://vk.com/koshik_sumy"
+		  ]
+		}
+		</script> -->
+		<script type="text/javascript">
+			if (navigator.serviceWorker.controller) {
+			  console.log('[PWA Builder] active service worker found, no need to register')
+			} else {
+			  //Register the ServiceWorker
+			  navigator.serviceWorker.register('pwabuilder-sw.js', {
+			    scope: './'
+			  }).then(function(reg) {
+			    console.log('Service worker has been registered for scope:'+ reg.scope);
+			  });
+			}
+		</script>
+		<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+		<script>
+		  var OneSignal = window.OneSignal || [];
+		  OneSignal.push(function() {
+		    OneSignal.init({
+		      appId: "71a5c849-d66b-4c0f-b11e-67483a801d5f",
+		    });
+		  });
+		</script>
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="application-name" content="Суші Кошик">
+		<meta name="apple-mobile-web-app-title" content="Суші Кошик">
+		<meta name="theme-color" content="#fc5f07">
+		<meta name="msapplication-navbutton-color" content="#fc5f07">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="msapplication-starturl" content="/index.html">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="icon" type="image/png" sizes="128x128" href="https://cdn2.iconfinder.com/data/icons/apps-3/128/Sushi.png">
+		<link rel="apple-touch-icon" type="image/png" sizes="128x128" href="https://cdn2.iconfinder.com/data/icons/apps-3/128/Sushi.png">
+        <meta name="description" content="Кошик суши - заказывайте суши на вынос или доставку в Сумах, бесплатная доставка при закезе от 250грн ">
+        <meta name="keywords" content="Кошик,суши, Кошик суши, Кошик Сумы, кошик суши сумы, суши бар, суши Сумы, доставка суші суми, суші суми ">
+        <link href="{{ asset('css/style-new.css') }}" type="text/css" rel="stylesheet"/>
+        <link rel="manifest" href="{{ asset('manifest.json') }}">
+		{#<script src="{{ asset('js/delivery.js') }}"></script>#}
+{% endblock %}
+
+{% block body %}
+ <div class="wrapper">
+		<div class="top-block">
+			<div class="header-block__mb-menu">
+				<img src="img/menu.png" class="header-block__menu-icon" alt="menu-icon">
+				<a href="#" class="header-block__logo"><img src="img/logo.png" class="header-logo" alt="logo" title="Головна"></a>
+			</div>
+			<header class="header-block header-block--mb">
+				<nav class="header-nav">
+					<ul class="header-nav__list">
+						<li class="header-nav__item"><a href="#" class="header-block__md-logo"><img src="img/logo.png" class="header-logo" alt="logo" title="Кошик суші - Головна"></a></li>
+						<li class="header-nav__item"><a href="#" class="header-nav__link" >Головна</a></li>
+						<li class="header-nav__item"><a href="{{ path('sushi_sushi_homepage')}}" class="header-nav__link" title="Кошик суші - зробити замовлення">Замовити</a></li>
+						<li class="header-nav__item"><a href="#for-delivery" class="header-nav__link">Доставка</a></li>
+						<li class="header-nav__item"><a href="#for-contacts" class="header-nav__link">Контакти</a></li>
+					</ul>
+				</nav>
+			</header>
+			<div class="conteiner">
+				<div class="order-btn animated flipInX">
+					<h1><a class="order-btn__link" href="{{ path('sushi_sushi_homepage')}}" title="Кошик суші - зробити замовлення">Зробити замовлення</a></h1>
+				</div>
+			</div>
+		</div>
+		<div class="main">
+				<div class="products">
+					<section class="left-item align-item">
+						<div class="animated mov">
+							<h2 class="product__title">Хто ми</h2>
+							<p class="product-text ">"Кошик" - найбільша швидкозростаюча мережа супермаркетів та магазинів у Сумській області. Запорукою успіху та високих показників росту є дружний колектив, де головна цінність – люди. Професіоналізм та бажання кожного співробітника розвиватися допомагають забезпечити гарну якість товару та сервіс високого рівня. Наша головна мета – якість продукту за доступною ціною!</p>
+						</div>
+					</section>
+					<section class="right-item align-item img-item " style="background-image: url(img/1.jpg);">
+					</section>
+				</div>
+				<div class="products">
+					<section class="right-item align-item img-item " style="background-image: url(img/1.jpg);">
+					</section>
+					<section class="left-item align-item">
+						<div class="animated mov-right">
+							<h2 class="product__title">Суші до кожного столу</h2>
+							<p class="product-text"> Кожного дня в супермаркеті працює відділ суші, який за рік набув великої популярності. Ви маєте можливість скуштувати щойно приготовлені суші спеціально для Вас. Також можливо оформити замовлення за телефоном на зручний для Вас час, та забрати в одному з супермаркетів мережі. Або замовити доставку до під’їзду чи до квартири. Завдяки відносно невеликим затратам на утримання суші-бару та закупівлі великого обсягу продуктів в сертифікованих імпортерів - постачальників ми можемо гарантувати високу якість суші за приємною ціною. Як ви вже знаєте, суші – це корисна й енергетично повноцінна їжа, яка забезпечує нам правильне співвідношення білків, жирів та вуглеводів. За статикою середній вік японців 83 роки!</p>
+						</div>
+					</section>
+				</div>
+				<div class="products">
+					<section class="left-item align-item">
+						<div class="animated mov">
+							<h2 class="product__title">Доступність і якість</h2>
+							<p class="product-text">  Відділи суші-барів в супермаркетах "Кошик" використовують  тільки свіжу рибу, яка пройшла процедуру шокового заморожування. Такий метод є найбільш ефективним і дозволяє зберегти всі корисні властивості і смак продукту. Ми прагнемо до розвитку і тому приділяємо багато часу на навчання персоналу, щоб наші покупці залишалися  задоволені нашим сервісом та якісними продуктами.</p>
+						</div>
+					</section>
+					<section class="right-item align-item img-item " style="background-image: url(img/1.jpg);">
+					</section>
+						<div id="for-delivery"></div>
+				</div>
+		</div>
+		<div id="delivery" class="delivery-block">
+			<div class="conteiner">
+				<div  class="animated mov-right">
+					<h3 class="delivery__title">Доставка</h3>
+					<p class="delivery__text">Виберіть для себе кращий спосіб доставки та наші курьєри  доставлять ваше замовлення найближчим часом.</p>
+					<p class="delivery__text">Доставка: до під'їзду/приватний будинок - 30грн., до квартири - 35грн., <br><span class="delivery-text__free-del">якщо сума замовлення більше 250грн. - Доставка Безкоштовна.</span></p>  
+					<p class="delivery__text">Також є можливість доставити замовлення  на вказаний час та дату.</p>
+				</div>
+			</div>
+			<div id="for-contacts"></div>
+		</div>
+		<footer class="footer">
+		<div class="animated mov">
+			<h3 class="footer-contacts__title">Контакти</h3>
+			<div class="conteiner footer__conteiner">
+				<div class="footer-contacts" id="contacts">
+					<div class="footer-work-time">
+						<h4 class="footer-sec-title">Ми працюємо:</h4>
+						<p>Без перерв та вихідних</p>
+						<p>з 11-00 до 21-30</p>
+					</div>
+					<ul class="footer-contacts__list">
+						<li class="footer-contacts__item">+38 (050) 303-99-83</li>
+					</ul>
+					<ul class="social-list">
+						<li class="social-item"><a href="https://www.facebook.com/koshiksuhi/"><img src="img/facebook.png" alt="www.facebook.com/koshikSumy" title=" Кошик Суші - Facebook"></a></li>
+						<li class="social-item"><a href="https://vk.com/koshik_sumy"><img src="img/vkontakte.png" alt="vk.com/koshik_sumy" title="Кошик Суші - ВКонтакте"></a></li>
+						<li class="social-item"><a href="https://telegram.org/"><img src="img/telegram.png" alt="telegram" title="Кошик Суші - Telegram"></a></li>
+						<li class="social-item"><a href="https://www.skype.com/ru/"><img src="img/skype.png" alt="skype" title="Кошик Суші - Skype"></a></li>
+						<li class="social-item"><a href="https://www.viber.com/ru/"><img src="img/viber.png" alt="viber" title="Кошик Суші - Viber"></a></li>
+					</ul>
+				</div>
+				<div class="footer-adrres">
+					<h4 class="footer-sec-title">Адреса:</h4>
+					<p>м.Суми, площа Покровська, 3, Кошик ЦУМ</p>
+					<p>м.Суми, вул. Прокоф'єва, 32, Кошик</p>
+					<div id="map"></div>
+				</div>
+			</div>
+			</div>	
+		</footer>
+	</div>
+	
+	<script  src="{{ asset('js/jq.min.js') }}"></script>
+	<script  src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"  integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="  crossorigin="anonymous"></script>
+	<script  src="{{ asset('js/app.js') }}"></script>
+	<script type="text/javascript">
+			$(window).scroll(function(){$('.mov').each(function(){var a=$(this).offset().top,b=$(window).scrollTop();a<b+700&&$(this).addClass('fadeInLeft')}),$('.mov-right').each(function(){var a=$(this).offset().top,b=$(window).scrollTop();a<b+700&&$(this).addClass('fadeInRight')}),$('.about-us').each(function(){var a=$(this).offset().top,b=$(window).scrollTop();a<b+700&&$(this).addClass('fadeInLeft')}),$('.header-block').each(function(){var a=100,b=$(window).scrollTop();a<b+100?$(this).css({'background-color':'rgba(252,95,7,0.92)',transform:'scale(1.15, 1.15)'}):a>b+50&&$(this).css({'background-color':'unset',transform:'scale(1, 1)'})})});
+	</script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5QDkktrHmi2ioxr4MJ6irZYO0Axd_gXM&callback=initMap"></script>
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}

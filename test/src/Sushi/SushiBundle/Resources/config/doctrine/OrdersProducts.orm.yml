@@ -1,0 +1,52 @@
+Sushi\SushiBundle\Entity\OrdersProducts:
+    type: entity
+    table: orders_products
+    uniqueConstraints:
+        order_row:
+            columns:
+                - order_id
+                - row_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        orderId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: order_id
+        rowId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: row_id
+        productId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: product_id
+        qty:
+            type: decimal
+            nullable: false
+            precision: 10
+            scale: 3
+        price:
+            type: decimal
+            nullable: false
+            precision: 15
+            scale: 2
+        sum:
+            type: decimal
+            nullable: false
+            precision: 18
+            scale: 2
+    lifecycleCallbacks: {  }

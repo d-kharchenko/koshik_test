@@ -1,0 +1,36 @@
+{# src/Sushi/SushiBundle/Resources/views/Page/index.html.twig #}
+{% extends 'SushiSushiBundle::layout.html.twig' %}
+
+{% block body %}
+	<div class="order-list">
+		<div class="order-block">
+			<table>
+				<tr class="order-block__title">
+					<th class="order-block__number">№</th>
+					<th class="order-block__product">Товар</th>
+					<th class="order-block__qty">Кількість</th>
+                    <th class="order-block__price">Ціна</th>
+					<th class="order-block__delete">Видалити</th>
+				</tr>
+				{% for product in products_cart %}
+                    <tr class="order-block__to-order" id = "row-"product.id>
+				    	<td id = "row_num">{{ product.row_num }}</td>
+				    	<td id = "name">{{ product.name }}</td>
+				   		<td id = "qty">{{ product.qty }}</td>
+                       	<td id = "price">{{ product.price }}</td>
+				    	{#<td><a href="{{ path('sushi_sushi_delfromcart', {'product_id': product.id}) }}"><img class = "order-block_image_delete" src={{ asset('img/delete-button.png') }}></a></td>#}
+						<td><button class = "delFromCartButton" style = "background-image: url( {{ asset('img/delete-button.png') }} )" id = "delFromCartButton"+{{ product.id }} onclick="delFromCart({{ product.id }})"></button></td>
+			    	</tr>
+                {% endfor %}
+			</table>
+			<div class="total-sum">
+				{#<a href="{{ path('sushi_sushi_order')}}"><button class="total-sum__button">Оформити замовлення</button></a>#}
+				<a href="{{ path('sushi_sushi_order')}}"><button class="makeOrderButton" id="makeOrderButton" type="button"><span id="makeOrderButtonText">Оформити<br>замовлення</span></button></a>			
+				<div class="cost-block">
+					<h4 class="cost-block__title">Сума, грн.: </h4>
+					<span class="cost-block__cost-order">{{ sumOrderTotal }}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+  {% endblock %}

@@ -1,0 +1,42 @@
+{
+  "name": "Суші Кошик",
+  "short_name": "sushi",
+  "lang": "uk",
+  "start_url": "http://test.island-ukraine.com/catalog",
+  "display": "standalone",
+  "theme_color": "#fc5f07",
+  "icons": [
+    {
+      "src": "img/sushi-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "img/sushi-144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "img/sushi-152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "img/sushi-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/sushi-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "img/sushi-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "background_color": "#3E4EB8",
+  "orientation": "any"
+}

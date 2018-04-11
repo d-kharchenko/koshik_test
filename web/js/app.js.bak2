@@ -1,0 +1,127 @@
+$(function () {
+	$('.hide-menu').click(function(){
+		$('.order-list').toggle();
+	})
+		$(window).on('resize', function () {
+		//alert($("#makeOrderButton"));
+		//console.log('testdiv ', $("#makeOrderButton"));
+		//$("#makeOrderButton span").text("Оформити замовлення");
+		if
+			($(window).width() > 767) {
+				$('.order-list').css({'display' : 'block'})
+				//$("#makeOrderButton span").text("Оформити замовлення");
+    } else {
+		$('.order-list').css({'display' : 'none'})
+		//$("#makeOrderButton span").text("Оформити<br>замовлення");
+    }
+})
+});
+$(document).ready(function(){
+	var itemCount = $("#itemCount").attr("itemData");
+	$('#itemCount').html(itemCount).css('display', 'block');
+});
+
+function addToCart(elementId, itemId) {
+	//alert(itemId);
+	/*$.post("{{path(sushi_sushi_addtocart)}}", {'product_id': itemId}, 
+	function(response){
+			if(response.code == 100 && response.success){//dummy check
+				//do something
+			}
+
+	}, "json"); */
+	$.ajax({
+		type: "POST",
+		//url: "{{path(sushi_sushi_addtocartajax)}}",
+		url: "addtocartajax/"+itemId,
+		//contentType: 'application/json; charset=UTF-8',
+		data: {'product_id': itemId},
+		dataType: "json",
+		success: function(response_data, textStatus, jqXHR) {
+			alert(textStatus);
+			alert(jqXHR.responseText);
+			$("#cart-render-id").html("");
+			$("#cart-render-id").load("/carttable");
+			$("#cart-render-id1").html("");
+			$("#cart-render-id1").load("/carttable");
+			var itemCount = $("#itemCount").html()+1;//$("#itemCount").attr("itemData") + 1;
+			$('#itemCount').html(itemCount).css('display', 'block');
+			//alert(data);
+			//$("#cart-render-id").load("path{{ render(controller('SushiSushiBundle:Page:carttable')) }}");
+		},
+
+		error: function(response, desc, err) {
+			alert(desc);
+			alert(err);
+			//alert(response.responseJSON);	
+		}
+		/*data: {
+				 'product_id': itemId,                
+				}*/
+		//data: data,
+		/*success: function(data, dataType)
+		{
+				alert(data);
+		},
+
+		error: function(XMLHttpRequest, textStatus, errorThrown)
+		{
+				alert('Error : ' + errorThrown);
+		}*/
+	 });
+	 //$("#cart-render-id").html("path{{ render(controller('SushiSushiBundle:Page:carttable')) }}");
+	  //$("#cart-render-id").load("{{ render(controller('SushiSushiBundle:Page:carttable')) }}");
+	
+	 //$("#cart-render-id").load("");
+	 
+	/*var curValue = document.getElementById(elementId).value;
+	curValue = Number(curValue) + Number(resValue);
+	if (curValue > maxValue){
+		curValue = 0
+	} else if (curValue < 0) {
+		curValue = maxValue;
+	}	
+	document.getElementById(elementId).value = curValue;*/
+}
+
+function delFromCart(itemId) {
+
+	//alert(itemId);
+	var curItemId = itemId;
+	$.ajax({
+		type: "POST",
+		//url: "{{path(sushi_sushi_addtocartajax)}}",
+		url: "delfromcartajax/"+itemId,
+		contentType: 'application/json; charset=UTF-8',
+		//data: {"product_id": curItemId},
+		dataType: "json",
+		success: function(response) {
+			//alert(111);
+			//alert(itemId);
+			//alert(data);
+			//$("#cart-render-id").load("path{{ render(controller('SushiSushiBundle:Page:carttable')) }}");
+		},
+		error: function(response, desc, err) {
+			//alert(222);	
+		}
+		/*data: {
+				 'product_id': itemId,                
+				}*/
+		//data: data,
+		/*success: function(data, dataType)
+		{
+				alert(data);
+		},
+
+		error: function(XMLHttpRequest, textStatus, errorThrown)
+		{
+				alert('Error : ' + errorThrown);
+		}*/
+	 });
+	
+	 /*$("#cart-render-id").html("");
+	 $("#cart-render-id").load("/carttable");
+	 $("#cart-render-id1").html("");
+	 $("#cart-render-id1").load("/carttable");*/
+
+}

@@ -1,0 +1,689 @@
+@font-face {
+    font-family: Open Sans; 
+    src: url(../font-awesome/fonts/OpenSans-Regular.ttf); 
+   }
+
+*{
+    margin: 0px;
+    padding: 0px;
+}
+a{
+    font-family: Open Sans;
+    text-decoration: none;
+}
+
+body, html{
+    height:100%
+}
+table, th{
+    border: 1px solid #9f9f9f;
+    border-collapse: collapse;
+    padding: 10px;
+    border-spacing: 0;
+    margin: 0 auto;
+}
+body{
+    font-family: Open Sans;
+}
+.wrap{
+    min-width: 320px;
+    margin: 0 auto;
+    height: 90%;
+    text-align: center;
+    width: 95%;
+    padding-top: 15px;
+    position: relative;
+
+}
+.header-block {
+    width: 50%;
+    margin: 0 auto;
+}
+.header-logo{
+    max-width: 250px;
+}
+.header-nav{
+    text-align: center;
+}
+.header-block__mb-menu{
+    display: none;
+}
+.header-nav__list{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.header-nav__item{
+    display: inline-block;
+
+}
+.header-nav__link{
+    display: block;
+    padding: 10px 20px;
+    color: #000000;
+    font-size: 20px;
+}
+.header-nav__link:hover{
+    color: #000000;
+}
+.move-up{
+    display: none;
+}
+.price-block__cost{
+    color: #ff2200;
+}
+
+.order-menu {
+    margin: 0 auto;
+    height: 90%;
+}
+.order-menu__wrap-link{
+    margin-bottom: 10px;
+    display: none;
+}
+.tabs__list{
+    list-style: none;
+    text-align: left;
+}
+.tabs__item{
+    display: inline-block;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    background-color: rgb(202, 201, 200);
+}
+
+.tabs__link, .order-menu__link{
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+    display: block;
+    padding: 15px 20px;
+    outline: none;
+}
+.order-menu__link{
+    background: rgba(249, 103, 26, 0.88);
+    width: 265px;
+    display: inline-block;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 30px;
+}
+.ui-tabs-active{
+    background: #5ad35b;
+
+}
+.makeOrderButton, .menu-item__order{
+    height: 30px;
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0px 34px;
+}
+.next-button{
+
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(98,216,98,1)), to(rgba(46,190,46,1)));
+
+    background: -webkit-linear-gradient(top, rgba(98,216,98,1) 0%, rgba(46,190,46,1) 100%);
+
+    background: -o-linear-gradient(top, rgba(98,216,98,1) 0%, rgba(46,190,46,1) 100%);
+
+    background: linear-gradient(to bottom, rgba(98,216,98,1) 0%, rgba(46,190,46,1) 100%);
+
+    border: 1px solid #008000;
+
+    text-align: center;
+
+}
+
+.order-header{
+    margin-bottom: 10px;
+}
+.order-header__new-order, .menu-item__order{
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(98,216,98,1)), to(rgba(46,190,46,1)));
+    background: -webkit-linear-gradient(top, rgba(98,216,98,1) 0%, rgba(46,190,46,1) 100%);
+    background: -o-linear-gradient(top, rgba(98,216,98,1) 0%, rgba(46,190,46,1) 100%);
+    background: linear-gradient(to bottom, rgba(98,216,98,1) 0%, rgba(46,190,46,1) 100%);
+    border: 1px solid #008000;
+    text-align: center;
+}
+.order-header__log-out{
+    background: #fed90f;
+    border: 1px solid #cf974c;
+}
+.order-header__log-in{
+    float: right;
+    background: #fef9ff;
+    border: 1px solid #b3b2b7;
+}
+.sushi-menu, 
+.other-ing,
+.beverages{
+    width: 60%;
+    height: 90%;
+    float: left;
+    margin-right: 10px;
+    padding: 15px;
+    border: 1px solid #9f9f9f;
+    overflow: auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    overflow: auto;
+}
+
+.menu-item{
+    padding: 8px 10px;
+    font-size: 14px;
+    margin-bottom: 21px;
+    text-align: center;
+    width: 28%;
+    margin-right: 5px;
+    border-right: 2px solid #009748;
+    border-left: 2px solid #009748;
+    border-bottom: 2px solid #009748;
+    border-top: 2px solid #009748;
+    height: 278px;
+    position: relative;
+}
+.sushi-menu:after{
+    content: '';
+    -webkit-box-flex: 0;
+        -ms-flex: 0 1 31%;
+            flex: 0 1 31%;
+}
+.menu-item__img{
+    padding-top: 10px;
+    border: 1px solid #9f9f9f;
+    max-height: 150px;
+}
+.menu-item__name{
+    margin-top: 10px;
+    display: block;
+}
+.price-block{
+    font-size: 14px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.menu-item__order{
+    left: 0%;
+    position: relative;
+    bottom: 8px;
+}
+.menu-item__bottom-border{
+    border-bottom: 2px solid #009748;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    width: 90%;
+
+}
+.hide-menu {
+    display: none;
+}
+.rotate-arrow{
+    -webkit-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+}
+.order-block{
+    width: 35%;
+    height: auto;
+    color: #1c364f;
+    float: left;
+    display: block;
+    overflow: auto;
+    /*text-align: left;*/
+}
+.order-block__title{
+    background: #f2f2f2;
+    font-size: 14px;
+}
+.order-block__to-order{
+    font-size: 14px;
+}
+.order-block__to-order td{
+    
+    border-bottom: 1px solid #e6e6e6;
+}
+.order-block__to-order td:nth-child(2){
+    padding: 10px;
+}
+.order-block__to-order input{
+    width: 25px;
+}
+.total-sum{
+    float: left;
+    padding-top: 14px;
+    color: green;
+    height: 100%;
+    font-size: 16px;
+    padding: 10px;
+    /*padding-left: -200px;*/
+    border: 0px solid #9f9f9f;
+    outline: none;
+    font-weight: bold;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    width: 26%;
+}
+
+#makeOrderButton {
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf));
+    background:-webkit-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+    background:-o-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(5%, #ededed), to(#dfdfdf));
+    background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+    background-color:#ededed;
+    border-radius:6px;
+    border:1px solid green;
+    cursor:pointer;
+    color:#777777;
+    font-size:15px;
+    font-weight:bold;
+    padding: 6px 24px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #ffffff;
+    float: left;
+    color: green;
+    height: 54px;
+
+}
+.makeOrderButton:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed));
+    background:-webkit-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+    background:-o-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(5%, #dfdfdf), to(#ededed));
+    background:linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
+    background-color:#dfdfdf;
+}
+.makeOrderButton:active {
+    position:relative;
+    top:1px;
+}
+
+.total-sum__button{
+    width: 150px;
+    height: 100%;
+    color: green;
+    font-size: 14px;
+    padding: 10px;
+    border: 1px solid #9f9f9f;
+    outline: none;
+    font-weight: bold;
+    float: left;
+}
+
+
+.cost-block__title{
+    display: inline-block;
+}
+.cost-block__cost-order{
+    color: #ff2200;
+    font-weight: bold;
+    margin-left: 10px;
+}
+.cost-block__free-del{
+    font-size: 12px;
+}
+table tr:last-child td{
+    border-bottom: 1px;
+}
+td[id^="qty"]{
+    font-weight: bold;
+}
+td[id^="qty"]:hover{
+    cursor: pointer;
+}
+.overlay{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: #ccc;
+    opacity: 0.5;
+}
+.ui-dialog{
+    background: #ffffff;
+    text-align: center;
+    border-radius: 5px;
+    outline: none;
+    color: #808080;
+    height: 150px;
+    position: fixed !important;
+    z-index: 100;
+}
+.ui-dialog .ui-dialog-titlebar-close{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 19px;
+    overflow: hidden;
+    height: 19px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+}
+.ui-icon-closethick:before{
+    content: '\2716';
+    
+}
+.ui-dialog-titlebar{
+    height: 250px !important;
+    text-align: center;
+    padding-top: 30px;
+
+}
+.order-block__modal{
+    position: absolute;
+    bottom: 105px;
+    left: 56px;
+    height: 70px !important;
+
+}
+.modal-btn{
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 10px;
+    outline: none;
+    min-width: 45px;
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 19%, rgba(204,204,204,1) 90%, rgba(204,204,204,1) 100%);
+}
+.modal-ok-btn{
+    margin-top: 30px;
+    min-width: auto;
+}
+.qty-val{
+    width: 50px;
+    height: 40px;
+    border: none;
+    margin-left: 25px;
+    margin-right: 25px;
+    text-align: center;
+    font-size: 30px;
+}
+
+/*модалька для остановки заказов*/
+.ui-dialog{
+    padding-bottom: 20px;
+}
+.ui-dialog-titlebar{
+    display: none;
+}
+.ui-dialog-buttonset button{
+    outline: none;
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #ff7513;
+    font-weight: bold;
+}
+#modal-message{
+    height: 240px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/*конец модальки отмены заказов*/
+
+@media screen and (max-width: 767px){
+    .header-block{
+        display: none;
+    }
+    .move-up{
+        display: block;
+        position: fixed;
+        bottom: 45px;
+        right: 20px;
+        z-index: 10;
+    }
+     .sushi-menu{
+        width: 95%;
+        margin: 0px auto;
+        margin-bottom: 30px;
+        border: none;
+        padding: 0;
+        overflow: visible;
+        margin-top: 40px;
+    }
+    .sushi-menu__adaptive{
+        margin-top: 330px !important;
+    }
+    .menu-item{
+        float: none;
+        width: 90%;
+        margin: 0 auto;
+        border: none;
+        text-align: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #009748;
+    }
+    .menu-item__order{
+        position: relative;
+        left: 0;
+    }
+    .menu-item__bottom-border{
+        display: none;
+    }
+    .order-menu{
+        position: relative;
+    }
+    .order-menu__wrap-link{
+        margin-top: 55px;
+        display: block;
+    }
+    .tabs__list{
+       border-bottom: 1px solid #cccccc;
+       margin-top: 55px;
+    }
+    .tabs__link, .order-menu__link{
+        font-size: 12px;
+        padding: 10px;
+    }
+    .hide-menu{
+        position: fixed;
+        background: #f2f2f2;
+    
+        font-size: 20px;
+        display: block;
+        top: 0;
+        width: 95%;
+        height: 35px;
+        padding: 10px 0;
+      
+    }
+    .hide-menu__logo{
+        max-width: 110px;
+        margin-top: -5px;
+    }
+    .home-link{
+        position: absolute;
+        left: 10px;
+        max-width: 40px;
+        top: 7px;
+        z-index: 100;
+    }
+    .hide-menu__text{
+        display: inline-block;
+    }
+    .hide-menu__item{
+        width: 40px;
+        position: absolute;
+        right: -35px;
+        cursor: pointer;
+        -webkit-transition-duration: 0.5s;
+             -o-transition-duration: 0.5s;
+                transition-duration: 0.5s;
+        top: 0;
+    }
+    .order-list{
+        display: none;
+        position: fixed;
+        top: 55px;
+        background: #fff;
+        width: 95%;
+        
+    }
+    .order-block{
+        width: 100%;
+        margin: 0 auto;
+        float: none;
+        display: inline-block;
+        height: 100%;
+        max-height: 200px;
+        overflow: scroll;
+        
+    }
+    .order-block__title{
+      
+        font-size: 12px;
+    }
+    .order-block__to-order{
+        font-size: 12px;
+    }
+    .total-sum{
+        width: 95%;
+        position: absolute;
+        left: 0px;
+        -webkit-box-shadow: 0px 8px 7px 0px rgba(204,204,204,1);
+        box-shadow: 0px 8px 7px 0px rgba(204,204,204,1);
+        height: 55px;
+        background-color: #ffffff;
+        border-top: 1px solid #a7a7a7;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        -ms-flex-pack: distribute;
+            justify-content: space-around;
+        margin-top: -1px;
+    }
+    .cost-block{
+        float: none;
+        margin-right: 0;
+    }
+   
+}
+@media screen and (min-width: 768px) and (max-width: 1130px){
+    .sushi-menu{
+        margin: 0px auto;
+        margin-bottom: 30px;
+        border: none;
+        width: 48%;
+        padding: 15px 10px;
+    }
+    .menu-item{
+        width: 40%;
+    }
+    .menu-item__img{
+        max-height: 135px;
+    }
+    .order-list{
+        display: block;
+        width: 48%;
+        float: right;
+    }
+    .order-block{
+        width: 100%;
+        height: auto;
+        overflow: auto;
+    }
+    .order-block__title,
+    .order-block__to-order{
+        font-size: 12px;
+    }
+    .makeOrderButton, .menu-item__order{
+        font-size: 18px;
+        width: 95%;
+        padding: 0;
+    }
+     .makeOrderButton{
+        margin-bottom: 10px;
+    }
+    .total-sum{
+        width: 100%;
+        height: auto;
+        overflow: auto;
+        display: inline-block
+    }
+    .cost-block{
+        margin-bottom: 20px;
+        padding-top: 0;
+        float: none;
+        margin-right: 0;
+    }
+}
+
+#cart-container {
+    margin: 0 auto;
+    width: 80%;
+    position: relative;
+  }
+  
+#itemCount {
+    position: absolute;
+    display: none;
+    top: -5px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    text-align: center;
+    right: 30px;
+  }
+  .cart-icon{
+    position: absolute;
+    top: -2px;
+    max-width: 50px;
+    right: 25px;
+  }
+  .item {
+    width: 31%;
+    float: left;
+    margin: 1%;
+  }
+  
+  i:hover {
+    cursor: pointer;
+  }
+
+ .delFromCartButton {
+    height: 14px;  
+    width: 14px;
+    border: 0; 
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+    padding: 0;  
+
+  }
+  
+  .delImgButton {
+    height: 14px;  
+    width: 14px;
+
+  }

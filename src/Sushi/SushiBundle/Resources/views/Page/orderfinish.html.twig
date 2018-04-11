@@ -1,0 +1,30 @@
+{# src/Sushi/SushiBundle/Resources/views/Page/chopsticks.html.twig #}
+{% extends 'SushiSushiBundle::layout.html.twig' %}
+
+{% block title %} Cуші: замовлення {% endblock %}
+
+{% block stylesheets %}
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet"/>
+		{#<script src="{{ asset('js/delivery.js') }}"></script>#}
+		{#<<script src="{{ asset('js/app.js') }}"></script>#}
+{% endblock %}
+
+{% block body %}
+    <p>
+    <div class="contact-form contact-form--finish">
+		<h3 class="contact-form__title">Замовлення №{{ order_id }} успішно створено!</h3>
+         <p>Чекайте на дзвінок оператора.</p>
+         <br>
+         <br>
+         <a href="{{ path('sushi_sushi_homepage')}}"><button class="1button next-button" type="button">Нове замовлення</button></a>
+         {#<a href="{{ path('sushi_sushi_homepage')}}"><button class="menu-item__order" type="button">Нове замовлення</button></a>#}
+    </div>
+    </p>
+    
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}

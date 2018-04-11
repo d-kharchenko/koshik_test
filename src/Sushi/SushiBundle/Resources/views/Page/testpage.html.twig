@@ -1,0 +1,33 @@
+{# src/Sushi/SushiBundle/Resources/views/Page/testpage.html.twig #}
+{% extends 'SushiSushiBundle:Page:index.html.twig' %}
+
+{#{% block sidebar %}
+   Кошик:
+
+{{ form_start(form, { 'action': path('sushi_sushi_testpage'), 'method': 'POST', 'attr': {'class': 'sushi'} }) }}
+{{ form_errors(form) }}
+
+{{ form_row(form.name) }}
+{{ form_row(form.price) }}
+{{ form_row(form.description) }}
+
+{{ form_rest(form) }}
+
+<input type="submit" value="Submit" />
+<div class="rTable">
+<div class="rTableRow">
+<div class="rTableHead"><strong>id</strong></div>
+<div class="rTableHead"><strong>Name</strong></div>
+<div class="rTableHead"><span style="font-weight: bold;">price</span></div>
+</div>
+{% for product in products_cart %}
+        <div class="rTableRow">
+        <div class="rTableCell">{{ product.id }}</div>
+        <div class="rTableCell">{{ product.name }}</div>
+        <div class="rTableCell">{{ product.price }}</div>
+        </div>
+        
+{% endfor %}
+</div>
+
+{% endblock %}#}

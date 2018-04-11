@@ -1,0 +1,297 @@
+{# src/Sushi/SushiBundle/Resources/views/Page/delivery.html.twig #}
+{% extends 'SushiSushiBundle::layout.html.twig' %}
+
+{% block title %} Cуші: замовлення {% endblock %}
+
+{% block stylesheets %}
+        <link href="https://fonts.googleapis.com/css?family=Bad+Script|Roboto" rel="stylesheet">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet"/>
+		<script src="{{ asset('js/delivery.js') }}"></script>
+		<script src='https://www.google.com/recaptcha/api.js'></script>
+		<!-- <script src="{{ asset('js/app.js') }}"></script> -->
+{% endblock %}
+
+{% block body %}
+	<form action="{{ path('sushi_sushi_orderfinish')}}" method="POST">
+
+    <div class="contact-block">
+    	
+		<div class="contact-form">
+			 {#<div class="hide-menu">#}
+            	{#<a href="{{ path('sushi_sushi_startpage')}}"><img src="{{ asset('img/home-icon.png') }}" class="home-link" alt="На головну"></a>#}
+				{#<p class="hide-menu__text">Кошик</p> #}
+				{#<div id="cart-container">#}
+      				{#<div id="cart">#}
+        				{#<a href="{{ path('sushi_sushi_startpage')}}" class="hide-menu__link"></a><img src="{{ asset('img/logo.png') }}" class="hide-menu__logo" alt="логотип" ></a>#}
+						{#<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>	#}
+      				{#</div>#}
+      				{#<img src="{{ asset('img/arrow-hide-menu.png') }}" alt="arrow" class="hide-menu__item">#}
+      				{#<img src="{{ asset('img/cart-icon.png') }}" class="cart-icon" alt="Кошик" >#}
+      				{#<span id="itemCount" itemData = {{ itemCountTotal }}></span>#}
+    			{#</div>#}
+				{#<div class="order-hide-block"></div>#}
+			{#</div>#}
+			{#<div name="cart-render" id="cart-render-id">{{ render(controller('SushiSushiBundle:Page:carttable')) }}</div>#}
+			{#<div class="order-list">#}
+						{#<div class="order-block">#}
+							{#<table id = "cart-table" width="100%">#}
+								{#<tr class="order-block__title">#}
+									{#<th class="order-block__number">№</th>#}
+									{#<th class="order-block__product">Товар</th>#}
+									{#<th class="order-block__qty">Кількість</th>#}
+                    				{#<th class="order-block__price">Ціна</th>#}
+									{#<th class="order-block__delete">Видалити</th>#}
+								{#</tr>#}
+								{#{% for product in products_cart %}#}
+                    				{#<tr class="order-block__to-order" id = "{{ 'cart-string' ~ product.id }}">#}
+				    					{#<td id = "{{ 'row_num' ~ product.id }}">{{ product.row_num }}</td>#}
+				    					{#<td id = "{{ 'name' ~ product.id }}" style='text-align: left'>{{ product.name }}</td>#}
+				   						{#<td id = "{{ 'qty' ~ product.id }}" class="for-modal">{{ product.qty }}</td>#}
+                       					{#<td id = "price">{{ product.price }}</td>#}
+				    					{#<td><a href="{{ path('sushi_sushi_delfromcart', {'product_id': product.id}) }}"><img class = "order-block_image_delete" src={{ asset('img/delete-button.png') }}></a></td>#}
+										{#<td><button class = "delFromCartButton" style = "background-image: url( {{ asset('img/delete-button.png') }} )" id = "delFromCartButton"+{{ product.id }} onclick="delFromCart({{ product.id }})"></button></td>#}
+										{#<td><button class = "delFromCartButton" id = "delFromCartButton"+{{ product.id }} onclick="setCartItemQty({{ product.id }},-1)"><img class="delImgButton"  src="{{ asset('img/delete-button.png') }}"/></button></td>#}
+			    					{#</tr>#}
+                				{#{% endfor %}#}
+							{#</table>#}
+						{#</div>#}
+						{#<div class="total-sum">#}
+								{#<div class="cost-block">#}
+									{#<h4 class="cost-block__title">Сума замовлення, грн.: </h4>#}
+									{#<span class="cost-block__cost-order" id = "cartSumTotal">{{ sumOrderTotal }}</span>#}
+								{#</div>#}
+						{#</div>#}
+				{#</div>#}
+			<form class="contact-form__input">
+				<h3 class="contact-form__title">Вибір паличок</h3>	
+				<div class="add-sticks-block">
+					<div class="add-usual-sticks">
+						<span class="add-sticks-block__title">Небхідна кількість <br> комплектів паличок:</span>
+						<div class="edit-qlt-sticks">
+							<button class="edit-button minus-button" name="minus-button" style="text-align: center" onclick="changeSticksValue(-1, 'addstick')" type="button">-</button>
+							<!--<form class="stc-form">!-->
+								<input type="number" id = "addstick" maxlength="2" minlength="1" min="0" max="99" name="_addstick" class="quantity-sticks" value="0">
+							<!--</form>!-->
+							<button class="edit-button plus-button" id="plus-button" name="plus-button"  onclick="changeSticksValue(1, 'addstick')" type="button">+</button>
+							<!--<button class="edit-button plus-button" id="plus-button" name="plus-button" type="button">+</button>!-->
+						</div>
+					</div>
+					<div class="add-sticks-for-nubs">
+						<span class="add-sticks-block__title">Небхідна кількість <br> комплектів учбових паличок:</span>
+							<div class="edit-qlt-sticks">
+								<button class="edit-button minus-button" onclick="changeSticksValue(-1, 'addstick_stud')" type="button">-</button>
+								<!--<form class="stc-form">!-->
+									<input type="number" id = 'addstick_stud' maxlength="2" minlength="1" min="0" max="99" name="_addstick_stud" class="quantity-sticks" value="0">
+								<!--</form>!-->
+								<button class="edit-button plus-button" onclick="changeSticksValue(1, 'addstick_stud')" type="button">+</button>
+							</div>
+					</div>
+				</div>
+				<div class="contact-form-data">
+					
+					<h3 class="contact-form__title">Контактні дані</h3>
+					<p class="contact-form__tel">
+						<label>Телефон:</label>
+						<input type="tel" name="customer_phone"  class="contact-form__pers-tel" maxlength="10" minlength="10" required pattern="[0-9]{10}">
+					</p>
+					<p class="contact-form__name">
+						<label>Ім'я:</label>
+						<input type="text" name="customer_name" class="contact-form__pers-name" required minlength="2" maxlength="20">
+					</p>
+				</div>
+				<div class="contact-form-addres">
+					
+					<h3 class="contact-form__title">Адреса доставки</h3>
+					{% if delTypes %}
+						<div class="contact-form-type-del__list">
+							{% for delType in delTypes %}
+								<input type="radio" id="{{ 'rdo-sel' ~ delType.id }}" name="radio-sel" value="{{ delType.id }}" data-price="{{ delType.price }}"><label class="{{ 'contact-form-type-del__item ' ~ delType.css }}" for = "{{ 'rdo-sel' ~ delType.id }}">{{ delType.name }} 
+									{% if delType.price > 0 %}
+										<span class="contact-form-type-del__prc">&nbsp; {{ delType.price }} грн.</span>
+									{% endif %}
+								</label>
+							{% endfor %}
+						</div>
+					{% else %}
+						<p>There are no delTypes in database</p>
+					{% endif %}
+					<p class="contact-form-addres__area hide-items">
+						<label>Місто:</label>
+							<select class="citylistcaption">
+								<option>Суми</option>
+							</select>
+					</p>
+					<p class="contact-form-addres__street hide-items">
+						<label class="streetcaption">
+							Вулиця:
+							<!--<select class = "streettypecaption">
+								<option>Вулиця</option>
+								<option>Пров.</option>
+							</select>!-->
+						</label>
+						<input type="text" name="address_street" id="personal-home" required  minlength="3">
+						<!--<label for="personal-home" class="contactcontact-form-addres__personal-home">Приватний будинок</label>!-->
+					</p>
+					<div class="contact-form-addres__exact-addres">
+						<p class="contact-form-addres__short-cell contact-form-addres__left-item hide-items">
+							<label>Будинок:</label>
+							<input type="text" name="address_building" class="contact-form-addres__short-input hide-items" required maxlength="4">
+						</p>
+						<p class="contact-form-addres__short-cell contact-form-addres__center-item hide-items">
+							<label class="contact-form-addres__label ">Під'їзд:</label>
+							<input type="text" name="address_porch" class="contact-form-addres__short-input" maxlength="3">
+						</p>
+						<p class="contact-form-addres__short-cell contact-form-addres__right-item hide-items">
+							<label class="contact-form-addres__label flat">Квартира:</label>
+							<input type="text" name="address_apps" class="contact-form-addres__short-input" maxlength="5">
+						</p>
+						<div class="contact-form-adr-self-srv">
+							{% if warehouses %}
+								{% for warehouse in warehouses %}
+									<input type="radio" id="{{ 'chbox-adr' ~ warehouse.id }}" name="check-del" value="{{ warehouse.id }}"><label class="contact-form-adr__item" for="{{ 'chbox-adr' ~ warehouse.id }}">{{ warehouse.name }}</label><br>
+								{% endfor %}	
+							{% else %}
+								<p>There are no warehouses in database</p>
+							{% endif %}
+						</div>
+						<div class="contact-form-addres__cmt">
+							<p class="contact-form-addres__title">Коментар</p>
+							<textarea class="contact-form-addres__txt" maxlength="120" rows="7" name="checkout-comment"></textarea>
+						</div>
+					</div>
+					
+				</div>
+				<p class="contact-form__time-date">
+					<label>Ви можете вказати дату і час доставки замовлення </label>
+					<img src="img/arrow.png" alt="arrow">
+					<span>
+						<input type="checkbox" name="isInTimeOrder" id="chbox" onchange="showHideDeliveryTime()">
+						<label class="contact-form-some-text" for="chbox">Вказати</label>
+					</span>
+				</p>
+				<div class="contact-form-sel-time" id="contact-form-sel-time" name="_contact-form-sel-time" style="display: hidden">
+					<input  id="datepicker" name="address_date" id="date-input" placeholder="Виберіть дату" readonly="true">
+					<div class="sel-hours">
+						<button class="edit-button plus-button" onclick="changeDateValue(1, 23, 'sel-hours-input')" type="button">+</button>
+							<input type="number" id = "sel-hours-input" maxlength="2" minlength="2" min="0" max="23" name="address_hours" class="quantity-sticks contact-form-sel-time--time-input" value = "0">
+						<button class="edit-button minus-button" name="edit-button minus-button" onclick="changeDateValue(-1, 23, 'sel-hours-input')" type="button">-</button>
+					</div>
+					<span class="contact-form-sel-time__separator">:</span>
+					<div class="sel-minuts">
+						<button class="edit-button plus-button" onclick="changeDateValue(5, 55, 'sel-minutes-input')" type="button">+</button>
+							<input type="number" id = "sel-minutes-input" maxlength="2" minlength="2" min="0" max="55" name="address_minutes" class="quantity-sticks contact-form-sel-time--time-input" value = "0">
+						<button class="edit-button minus-button" onclick="changeDateValue(-5, 55, 'sel-minutes-input')" type="button">-</button>
+						
+					</div>
+				</div>
+				<div class="check-list-wrap">
+			<p class="check-list-wrap__item">
+				<img src="https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/eye-128.png" class="check-list__show-list">
+				Переглянути чек
+			</p>
+			<div class="check-list">
+				<img src="{{ asset('img/logo.png') }}" class="checklist-logo" alt="logo">
+					{% for group in products_cart %}
+						<tr>
+							<table>
+								<tr>
+									<th class="checklist__num-in-ord">№</th>
+									<th>{{ group.groupName }}</th>
+									<th>К-ть</th>
+									<th>Ціна</th>
+									<th class="checklist__sum">Сума</th>
+
+								</tr>
+								{% for product in group.products %}
+									<tr>
+										<td class="check-list__tbl-first-el">{{ product.row_num }}</td>
+										<td>{{ product.name }}</td>
+										<td class="check-list__align">{{ product.qty }}</td>
+										<td class="check-list__align">{{ product.price }}</td>
+										<td class="check-list__right-td">{{ product.sum }}</td>
+									</tr>
+								{% endfor %}
+								<tr class="checklist__total-sum">
+									<td colspan="4">Всього, грн:</td>
+									<td class="check-list__right-td">{{ group.sum }}</td>
+								</tr>
+							</table>
+						</tr>
+					{% endfor %}
+					<tr>
+						<table>
+							<tr>
+								<th class="checklist__num-in-ord">№</th>
+								<th>Палочки</th>
+								<th class="checklist__sum">К-сть</th>
+							</tr>
+							<tr>
+								<td class="check-list__tbl-first-el">1</td>
+								<td>Комплект палочок</td>
+								<td class="check-list__stick check-list__right-td">0</td>
+							</tr>
+							<tr>
+								<td class="check-list__tbl-first-el">2</td>
+								<td>Комплект учбових паличок</td>
+								<td class="check-list__nub-stick check-list__right-td" >0</td>
+							</tr>
+						</table>
+					</tr>
+					<tr>
+						<table>
+							<tr class="checklist__total-sum">
+								<td colspan="2">Сума замовлення:</td>
+								<td class="checklist__sum check-list__right-td" id="order-sum">{{ sumOrderTotal }}</td>
+							</tr>
+						</table>
+					</tr>
+					<tr>
+						<table>
+							<tr class="checklist__total-sum">
+								<td colspan="2">Вартість доставки:</td>
+								<td class="checklist__sum check-list__right-td" id="del-sum">{{ sumDeliveryPrice }}</td>
+							</tr>
+						</table>
+					</tr>
+					<tr>
+						<table class="check-list__total-sum-tbl">
+							<tr class="checklist__total-sum">
+								<td colspan="2">Загальна сума замовлення, грн:</td>
+								<td class="checklist__sum check-list__right-td" id="order-sum-with-del">{{ sumOrderTotalWithDelivery }}</td>
+							</tr>
+						</table>
+					</tr>
+				</table>
+				<!-- {#<h3 class="check-list__title">Ваш чек</h3>
+				<ul class="check-list__list">
+					{% for product in products_cart %}
+						<li class="check-list__name">{{ product.name }} <span class="check-list__price">{{ product.qty }}&nbsp;*&nbsp;{{ product.sum }} грн.</span></li>
+					{% endfor %}
+					<li class="check-list__name">Червоний дракон <span class="check-list__price">100.00</span></li>
+					<li class="check-list__name">Червоний дракон <span class="check-list__price">100.00</span></li>
+					<li class="check-list__name">Червоний дракон <span class="check-list__price">100.00</span></li>!
+					<li class="check-list__name check-list--total-sum">Загальна сума: <span class="check-list__price">{{ sumOrderTotal }} грн.</span></li>
+				</ul>#} -->
+			</div>
+		</div>
+				<!-- <div class="g-recaptcha" data-sitekey="6LfqzzQUAAAAAAt82S0Uiikan6hAuM9FfpQGPtrd"></div> -->
+				<div class="contact-form-buttons">
+					<!--<button class="1button back-button" type="button" onclick = "location.href = {{ path('sushi_sushi_homepage') }};">Повернутися</button>!-->
+					<a href="{{ path('sushi_sushi_homepage')}}"><button class="1button back-button" type="button">Повернутися</button></a>
+					<!--<button class="1button next-button g-recaptcha" type="submit"  data-sitekey="6Ld67jEUAAAAAI08AOD_FuVpKbDZ2aIVjf7Z7L1s" data-callback="YourOnSubmitFn">Продовжити</button>!-->
+					<button class="1button next-button" type="submit">Продовжити</button>
+				</div>
+			</form>
+		</div>
+		
+	</div>
+    
+    <br><br>
+	</form>
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}

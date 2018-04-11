@@ -1,0 +1,113 @@
+Sushi\SushiBundle\Entity\Orders:
+    type: entity
+    table: orders
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        date:
+            type: datetime
+            nullable: false
+        customerId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: customer_id
+        customerName:
+            type: string
+            nullable: false
+            length: 100
+            options:
+                fixed: false
+            column: customer_name
+        customerPhone:
+            type: string
+            nullable: false
+            length: 13
+            options:
+                fixed: false
+            column: customer_phone
+        sticksQty:
+            type: integer
+            nullable: false
+            column: sticks_qty
+        stickStudQty:
+            type: integer
+            nullable: false
+            column: stick_stud_qty
+        delZoneId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: del_zone_id
+        delPrice:
+            type: decimal
+            nullable: false
+            precision: 15
+            scale: 2
+            column: del_price
+        streetId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: street_id
+        streetName:
+            type: string
+            nullable: false
+            length: 100
+            options:
+                fixed: false
+            column: street_name
+        building:
+            type: string
+            nullable: false
+            length: 8
+            options:
+                fixed: false
+        porch:
+            type: string
+            nullable: true
+            length: 8
+            options:
+                fixed: false
+        app:
+            type: string
+            nullable: true
+            length: 8
+            options:
+                fixed: false
+        sum:
+            type: decimal
+            nullable: false
+            precision: 18
+            scale: 2
+        delInTime:
+            type: boolean
+            nullable: false
+            column: del_in_time
+        delTime:
+            type: datetime
+            nullable: false
+            column: del_time
+        warehouseId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: warehouse_id
+        comment:
+            type: string
+            nullable: false
+            length: 120
+            options:
+                fixed: false
+    lifecycleCallbacks: {  }

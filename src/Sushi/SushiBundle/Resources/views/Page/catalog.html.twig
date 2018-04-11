@@ -1,0 +1,119 @@
+{# src/Sushi/SushiBundle/Resources/views/Page/index.html.twig #}
+{% extends 'SushiSushiBundle::layout.html.twig' %}
+	{% block stylesheets %}
+	    <script src="{{ asset('js/jq.min.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+		<script src="{{ asset('js/app.js') }}"></script>
+{% endblock %}
+{% block body %}
+    <div class="wrap">
+    	<header class="header-block header-block--mb">
+				<nav class="header-nav">
+					<ul class="header-nav__list">
+						<li class="header-nav__item"><a href="{{ path('sushi_sushi_startpage')}}" class="header-block__md-logo"><img src="img/logo.png" class="header-logo" alt="logo"></a></li>
+						<li class="header-nav__item"><a href="{{ path('sushi_sushi_startpage')}}" class="header-nav__link" >Головна</a></li>
+						<li class="header-nav__item"><a href="{{ path('sushi_sushi_startpage')}}#for-delivery" class="header-nav__link">Доставка</a></li>
+						<li class="header-nav__item"><a href="{{ path('sushi_sushi_startpage')}}#for-contacts" class="header-nav__link">Контакти</a></li>
+					</ul>
+				</nav>
+				
+			</header>
+    	<a href="#" class="move-up" alt="на верх"><img src="{{ asset('img/up-arrow.png') }}"></a>
+		<div class="order-menu" id="tabs">
+			<!-- <div class="order-menu__wrap-link">
+				<a href="{{ path('sushi_sushi_startpage')}}" class="order-menu__link">На головну</a>
+			</div> -->
+			
+			<ul class="tabs__list">
+				{% for group in groups_products %}
+					<li class="tabs__item"><a href="#tab-{{ group.groupId }}" class="tabs__link">{{ group.groupName }}</a></li>
+				{% endfor %}
+			</ul>
+			{% for group in groups_products %}
+			<div class="sushi-menu" id="tab-{{ group.groupId }}">
+                {% for product in group.products %}
+                    <div class="menu-item">
+					    <span class="menu-item__weight "></span>
+					    <div class="menu-item__modal">
+					    	<img src={{ asset('img/products/' ~ product.image) }} class="menu-item__img ">
+					    	<span href="#" class="menu-item__name" >{{ product.name }}</span>
+					    </div>
+					    <div class="price-block">
+  						    <h4>Ціна: <span class="price-block__cost">{{ product.price }}</span> грн.</h4>
+					    </div>
+                        {#<a href="{{ path('sushi_sushi_addtocart', {'product_id': product.id}) }}"><button class="menu-item__order">Замовити</button></a>#}
+						<button class="menu-item__order" id = 'addToCartButton'+{{ product.id }} onclick="setCartItemQty({{ product.id }})">Замовити</button>
+						<div id="menu-item__modal-window" class="modal" style="display: none;">
+							
+						</div>
+				    </div>
+                {% else %}
+                    <p>There are no products in database</p>
+                {% endfor %}
+            </div>
+			{% endfor %}
+
+            <div class="hide-menu">
+            	<a href="{{ path('sushi_sushi_startpage')}}"><img src="{{ asset('img/home-icon.png') }}" class="home-link" alt="На головну"></a>
+				{#<p class="hide-menu__text">Кошик</p> #}
+				<div id="cart-container">
+      				<div id="cart">
+        				<a href="{{ path('sushi_sushi_startpage')}}" class="hide-menu__link"></a><img src="{{ asset('img/logo.png') }}" class="hide-menu__logo" alt="логотип" ></a>
+						<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>	
+      				</div>
+      				<img src="{{ asset('img/arrow-hide-menu.png') }}" alt="arrow" class="hide-menu__item">
+      				<img src="{{ asset('img/cart-icon.png') }}" class="cart-icon" alt="Кошик" >
+      				<span id="itemCount" itemData = {{ itemCountTotal }}></span>
+    			</div>
+				<div class="order-hide-block"></div>
+			</div>
+			{#<div name="cart-render" id="cart-render-id">{{ render(controller('SushiSushiBundle:Page:carttable')) }}</div>#}
+			<div class="order-list" id ="order-list" data-free-del-price = "{{ sumFreeDeliveryPrice }}">
+						<div class="order-block">
+							<table id = "cart-table" width="100%">
+								<tr class="order-block__title">
+									<th class="order-block__number">№</th>
+									<th class="order-block__product">Товар</th>
+									<th class="order-block__qty">Кількість</th>
+                    				<th class="order-block__price">Ціна</th>
+									<th class="order-block__delete">Видалити</th>
+								</tr>
+								{% for product in products_cart %}
+                    				<tr class="order-block__to-order" id = "{{ 'cart-string' ~ product.id }}">
+				    					<td id = "{{ 'row_num' ~ product.id }}">{{ product.row_num }}</td>
+				    					<td id = "{{ 'name' ~ product.id }}" style='text-align: left'>{{ product.name }}</td>
+				   						<td id = "{{ 'qty' ~ product.id }}" class="for-modal">{{ product.qty }}</td>
+                       					<td id = "price">{{ product.price }}</td>
+				    					{#<td><a href="{{ path('sushi_sushi_delfromcart', {'product_id': product.id}) }}"><img class = "order-block_image_delete" src={{ asset('img/delete-button.png') }}></a></td>#}
+										{#<td><button class = "delFromCartButton" style = "background-image: url( {{ asset('img/delete-button.png') }} )" id = "delFromCartButton"+{{ product.id }} onclick="delFromCart({{ product.id }})"></button></td>#}
+										<td> 
+											{% if product.id > 0 %}
+												<button class = "delFromCartButton" id = "delFromCartButton"+{{ product.id }} onclick="setCartItemQty({{ product.id }},-1)"><img class="delImgButton"  src="{{ asset('img/delete-button.png') }}"/></button>
+											{% endif %}
+										</td>
+			    					</tr>
+                				{% endfor %}
+							</table>
+						</div>
+						<div class="total-sum">
+								{#<a href="{{ path('sushi_sushi_order')}}"><button class="total-sum__button">Оформити замовлення</button></a>#}
+								{#<a href="{{ path('sushi_sushi_order')}}"><button class="makeOrderButton" id="makeOrderButton" type="button"><span id="makeOrderButtonText">Оформити<br>замовлення</span></button></a>#}
+								<button class="makeOrderButton" id="makeOrderButton" type="button" onclick="goToDeliveryInformation()"><span id="makeOrderButtonText">Оформити<br>замовлення</span></button>
+								<div class="cost-block">
+									<h4 class="cost-block__title">Сума, грн.: </h4>
+									<span class="cost-block__cost-order" id = "cartSumTotal">{{ sumOrderTotal }}</span>
+									<p class="cost-block__free-del">до безкоштовної доставки залишилося - <span class="cost-block__cost-order cost-block--total-sum"></span> грн.</p>
+									<p class="cost-block__item">доставка безкоштовна</p>
+								</div>
+								<div class="order-detail">
+									<p>До кожного ролу додається соєвий соус, васабі та імбир</p>
+								</div>
+						</div>
+						
+				</div>
+        </div>
+    </div>
+{% endblock %}

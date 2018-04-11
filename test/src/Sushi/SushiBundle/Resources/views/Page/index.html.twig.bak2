@@ -1,0 +1,39 @@
+{# src/Sushi/SushiBundle/Resources/views/Page/index.html.twig #}
+{% extends 'SushiSushiBundle::layout.html.twig' %}
+
+{% block body %}
+    <div class="wrap">
+		<div class="order-menu">
+			<div class="sushi-menu">
+                {% for product in products %}
+                    <div class="menu-item">
+					    <span class="menu-item__weight"></span>
+					    <img src={{ asset('img/products/' ~ product.image) }} class="menu-item__img">
+					    <a href="#" class="menu-item__name">{{ product.name }}</a>
+					    <div class="price-block">
+  						    <h4>Ціна: <span class="price-block__cost">{{ product.price }}</span> грн.</h4>
+					    </div>
+                        {#<a href="{{ path('sushi_sushi_addtocart', {'product_id': product.id}) }}"><button class="menu-item__order">Замовити</button></a>#}
+						<button class="menu-item__order" id = 'addToCartButton'+{{ product.id }} onclick="addToCart(addToCartButton+'{{ product.id }}', '{{ product.id }}')">Замовити</button>
+				    </div>
+                {% else %}
+                    <p>There are no products in database</p>
+                {% endfor %}
+            </div>
+            <div class="hide-menu">
+				{#<p class="hide-menu__text">Кошик</p> #}
+				<div id="cart-container">
+      				<div id="cart">
+        				Ваш кошик
+						<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>
+      				</div>
+      				<span id="itemCount" itemData = {{ itemCountTotal }}></span>
+    			</div>
+				{#<img src="img/arrow-hide-menu.png" alt="arrow" class="hide-menu__item">#}
+				<div class="order-hide-block"></div>
+				<div name="cart-render" id="cart-render-id1">{{ render(controller('SushiSushiBundle:Page:carttable')) }}</div>
+			</div>
+			<div name="cart-render" id="cart-render-id">{{ render(controller('SushiSushiBundle:Page:carttable')) }}</div>
+        </div>
+    </div>
+{% endblock %}

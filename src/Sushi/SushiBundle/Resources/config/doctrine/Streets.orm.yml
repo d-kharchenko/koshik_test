@@ -1,0 +1,27 @@
+Sushi\SushiBundle\Entity\Streets:
+    type: entity
+    table: streets
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            options:
+                fixed: false
+        nameOld:
+            type: string
+            nullable: false
+            length: 100
+            options:
+                fixed: false
+            column: name_old
+    lifecycleCallbacks: {  }

@@ -1,0 +1,25 @@
+{# src/Sushi/SushiBundle/Resources/views/Page/chopsticks.html.twig #}
+{% extends 'SushiSushiBundle::layout.html.twig' %}
+
+{% block title %} Cуші: замовлення {% endblock %}
+
+{% block stylesheets %}
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    Необхідна кількість комплектів палочок 
+    <input type="number" size="2">
+    <br><br>
+    Необхідна кількістьучбових  комплектів палочок
+    <input type="number" size="2">
+    <br><br>
+    <button class="button-back" type="submit"><a href="{{ path('sushi_sushi_homepage')}}">Повернутися</a></button>
+    <button class="button-next" type="submit"><a href="{{ path('sushi_sushi_delivery')}}">Продовжити</a></button>
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}
